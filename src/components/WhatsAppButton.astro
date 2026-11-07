@@ -1,0 +1,40 @@
+---
+// Floating WhatsApp button (replaces the Joinchat plugin, no JS needed)
+import { whatsappLink } from '../config/site';
+import Icon from './Icon.astro';
+---
+
+<a class="wa-float" href={whatsappLink()} target="_blank" rel="noopener" aria-label="Fale conosco pelo WhatsApp">
+  <Icon name="whatsapp" size={30} />
+</a>
+
+<style>
+  .wa-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 90;
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #25d366;
+    color: var(--white);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
+    transition: transform 0.2s;
+  }
+
+  .wa-float:hover {
+    transform: scale(1.08);
+  }
+
+  @media (max-width: 767px) {
+    .wa-float {
+      right: 14px;
+      bottom: 14px;
+      width: 52px;
+      height: 52px;
+    }
+  }
+</style>

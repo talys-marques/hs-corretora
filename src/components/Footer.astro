@@ -1,0 +1,193 @@
+---
+import { site } from '../config/site';
+import Icon from './Icon.astro';
+
+const links = [
+  { label: 'Para você', href: '/para-voce/' },
+  { label: 'Para empresas', href: '/para-empresas/' },
+  { label: 'Sobre nós', href: '/sobre-nos/' },
+  { label: 'Contato', href: '/contato/' },
+  { label: 'Ajuda', href: '/ajuda/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Fazer uma cotação', href: '/cotacao/' },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <a href="/" class="footer-brand" aria-label={`${site.name} - página inicial`}>
+      <img src={site.logo} alt={site.name} width="180" height="44" loading="lazy" />
+    </a>
+
+    <nav aria-labelledby="footer-links">
+      <h2 id="footer-links" class="footer-title">A Herval Corretora</h2>
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="footer-title">Fale conosco</h2>
+      <ul class="phones">
+        {
+          site.phones.map((p) => (
+            <li>
+              <a href={`tel:${p.tel}`}>{p.number}</a>
+              <span>
+                {p.label} · {p.hours}
+              </span>
+            </li>
+          ))
+        }
+        <li>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="footer-title">Redes sociais</h2>
+      <ul class="social">
+        {
+          site.social.map((s) => (
+            <li>
+              <a href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
+                <Icon name={s.icon} size={18} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="container copyright">
+    <p>© {year} {site.name}. Uma empresa do Grupo Herval.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    color: var(--white);
+    padding-top: 56px;
+    font-size: 0.875rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 1.6fr auto;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .footer-brand img {
+    width: 180px;
+  }
+
+  .footer-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .footer-title::after {
+    content: '';
+    flex: 1;
+    min-width: 40px;
+    height: 1px;
+    background: rgb(255 255 255 / 0.6);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li + li {
+    margin-top: 6px;
+  }
+
+  a {
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .phones li {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 8px;
+  }
+
+  .phones a {
+    font-weight: 600;
+  }
+
+  .phones span {
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  .social {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social li + li {
+    margin-top: 0;
+  }
+
+  .social a {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--red);
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .social a:hover {
+    background: var(--red);
+    color: var(--white);
+  }
+
+  .copyright {
+    margin-top: 40px;
+    padding-block: 20px;
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    color: rgb(255 255 255 / 0.6);
+    font-size: 0.8rem;
+  }
+
+  .copyright p {
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

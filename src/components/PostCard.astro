@@ -1,0 +1,106 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { postUrl, formatDate } from '../lib/blog';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+const d = post.data;
+---
+
+<article class="post-card">
+  <a href={postUrl(post)} class="thumb" tabindex="-1" aria-hidden="true">
+    {d.image ? <img src={d.image} alt="" loading="lazy" decoding="async" /> : <span class="placeholder">{d.categories[0] ?? 'Seguros'}</span>}
+  </a>
+  <div class="body">
+    <p class="meta">
+      <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
+      {d.categories.length > 0 && <span> · {d.categories.join(', ')}</span>}
+    </p>
+    <h2><a href={postUrl(post)}>{d.title}</a></h2>
+    <p class="excerpt">{d.description}</p>
+    <a class="more" href={postUrl(post)} aria-label={`Leia mais: ${d.title}`}>Leia mais »</a>
+  </div>
+</article>
+
+<style>
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .post-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .thumb {
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: var(--navy);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-soft) 60%, var(--red-dark));
+    color: var(--white);
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 20px 22px 24px;
+  }
+
+  .meta {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    line-height: 1.35;
+  }
+
+  h2 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  h2 a:hover {
+    color: var(--red);
+  }
+
+  .excerpt {
+    flex: 1;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  .more {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+</style>

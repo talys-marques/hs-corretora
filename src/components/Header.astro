@@ -1,0 +1,187 @@
+---
+import { site, nav } from '../config/site';
+import Icon from './Icon.astro';
+
+const current = Astro.url.pathname;
+const isActive = (href: string) => href !== '/' && current.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="brand" aria-label={`${site.name} - página inicial`}>
+      <img src={site.logo} alt={site.name} width="190" height="46" />
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="icon-open"><Icon name="menu" size={28} /></span>
+      <span class="icon-close"><Icon name="close" size={28} /></span>
+      <span class="sr-only">Menu</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Menu principal">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                {...(item.external ? { target: '_blank', rel: 'noopener' } : {})}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn--primary header-cta" href={site.quote.primaryUrl} target="_blank" rel="noopener">
+        Cotar agora
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const header = document.querySelector('.site-header');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    header?.classList.toggle('is-open', !open);
+    document.body.classList.toggle('menu-open', !open);
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: var(--header-h);
+  }
+
+  .brand img {
+    width: 170px;
+    height: auto;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav ul a {
+    display: block;
+    padding: 8px 10px;
+    color: var(--white);
+    font-size: 0.875rem;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: color 0.2s;
+  }
+
+  .site-nav ul a:hover,
+  .site-nav ul a[aria-current='page'] {
+    color: #ff8a92;
+  }
+
+  .header-cta {
+    min-height: 40px;
+    padding: 8px 18px;
+    font-size: 0.8rem;
+  }
+
+  .menu-toggle {
+    display: none;
+    padding: 8px;
+    background: none;
+    border: 0;
+    color: var(--white);
+    cursor: pointer;
+  }
+
+  .menu-toggle .icon-close {
+    display: none;
+  }
+
+  @media (max-width: 1024px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .site-nav {
+      position: fixed;
+      inset: var(--header-h) 0 0 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 20px;
+      padding: 24px var(--gutter);
+      background: var(--navy);
+      overflow-y: auto;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    }
+
+    .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .site-nav ul a {
+      padding: 14px 4px;
+      font-size: 1.05rem;
+      border-bottom: 1px solid rgb(255 255 255 / 0.1);
+      border-radius: 0;
+    }
+
+    .header-cta {
+      min-height: 48px;
+      font-size: 0.9rem;
+    }
+
+    .is-open .site-nav {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+    }
+
+    .is-open .icon-open {
+      display: none;
+    }
+
+    .is-open .icon-close {
+      display: block;
+    }
+
+    :global(body.menu-open) {
+      overflow: hidden;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .brand img {
+      width: 140px;
+    }
+  }
+</style>

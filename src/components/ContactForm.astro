@@ -1,0 +1,194 @@
+---
+// Contact form posting straight to SAP Emarsys (same form/field IDs as the WordPress site).
+// Field map: inp_1 first name, inp_2 last name, inp_37 mobile, inp_3 e-mail, inp_14702 message.
+import { site } from '../config/site';
+const { action, cid, formId } = site.emarsys;
+---
+
+<form class="contact-form" action={action} method="post" data-contact-form novalidate>
+  <input type="hidden" name="CID" value={cid} />
+  <input type="hidden" name="SID" value="" />
+  <input type="hidden" name="UID" value="" />
+  <input type="hidden" name="f" value={formId} />
+  <input type="hidden" name="p" value="2" />
+  <input type="hidden" name="a" value="r" />
+  <input type="hidden" name="el" value="" />
+  <input type="hidden" name="llid" value="" />
+  <input type="hidden" name="c" value="" />
+  <input type="hidden" name="counted" value="" />
+  <input type="hidden" name="RID" value="" />
+  <input type="hidden" name="mailnow" value="" />
+
+  <div class="row">
+    <label>
+      <span>Nome</span>
+      <input type="text" name="inp_1" placeholder="Ex.: Ana" maxlength="128" required autocomplete="given-name" autocapitalize="words" />
+    </label>
+    <label>
+      <span>Sobrenome</span>
+      <input type="text" name="inp_2" placeholder="Ex.: da Silva" maxlength="128" required autocomplete="family-name" autocapitalize="words" />
+    </label>
+  </div>
+  <div class="row">
+    <label>
+      <span>Telefone</span>
+      <input type="tel" name="inp_37" placeholder="Ex.: 51 91234-5678" maxlength="13" minlength="12" required autocomplete="tel-national" inputmode="tel" data-phone />
+    </label>
+    <label>
+      <span>E-mail</span>
+      <input type="email" name="inp_3" placeholder="Ex.: ana.silva@email.com" maxlength="254" required autocomplete="email" />
+    </label>
+  </div>
+  <label>
+    <span>Sua mensagem</span>
+    <textarea name="inp_14702" rows="5" placeholder="Ex.: Gostaria de saber mais sobre os seguros."></textarea>
+  </label>
+  <label class="optin">
+    <input type="checkbox" name="optin" value="y" />
+    <span>Aceito receber comunicações da Herval Corretora de Seguros sobre seguros, ofertas e novidades.</span>
+  </label>
+
+  <button class="btn btn--primary" type="submit">Enviar</button>
+  <p class="status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<script>
+  // Phone mask: "51 91234-5678" / "51 3564-8366"
+  function formatPhone(value: string) {
+    const d = value.replace(/\D/g, '').slice(0, 11);
+    if (d.length <= 2) return d;
+    const rest = d.slice(2);
+    const split = rest.length > 8 ? 5 : 4;
+    return rest.length > split ? `${d.slice(0, 2)} ${rest.slice(0, split)}-${rest.slice(split)}` : `${d.slice(0, 2)} ${rest}`;
+  }
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const phone = form.querySelector<HTMLInputElement>('[data-phone]');
+
+    phone?.addEventListener('input', () => {
+      phone.value = formatPhone(phone.value);
+    });
+
+    const show = (msg: string, ok: boolean) => {
+      status.hidden = false;
+      status.textContent = msg;
+      status.dataset.state = ok ? 'ok' : 'error';
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      // Emarsys expects the mobile number with the country code
+      data.set('inp_37', `55${String(data.get('inp_37') || '').replace(/\D/g, '')}`);
+
+      button.disabled = true;
+      button.textContent = 'Enviando…';
+      try {
+        // Emarsys does not send CORS headers, so the response is opaque: a resolved
+        // promise means the request reached the server, a rejection means it did not.
+        await fetch(form.action, { method: 'POST', body: data, mode: 'no-cors' });
+        form.reset();
+        show('Mensagem enviada! Em breve entraremos em contato.', true);
+        window.gtag?.('event', 'generate_lead', { form: 'contato' });
+      } catch {
+        show('Não foi possível enviar agora. Tente novamente ou fale com a gente pelo WhatsApp.', false);
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Enviar';
+      }
+    });
+  });
+
+  declare global {
+    interface Window {
+      gtag?: (...args: unknown[]) => void;
+    }
+  }
+</script>
+
+<style>
+  .contact-form {
+    display: grid;
+    gap: 16px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  label {
+    display: grid;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  input:not([type='checkbox']),
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cfcfcf;
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--white);
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--red);
+    outline: 2px solid rgb(217 33 46 / 0.2);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .optin {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .optin input {
+    margin-top: 3px;
+    accent-color: var(--red);
+  }
+
+  .btn {
+    justify-self: start;
+  }
+
+  .status {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+
+  .status[data-state='ok'] {
+    background: #e8f6ec;
+    color: #1d6b35;
+  }
+
+  .status[data-state='error'] {
+    background: #fdecee;
+    color: var(--red-dark);
+  }
+
+  @media (max-width: 767px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

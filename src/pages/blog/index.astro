@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts } from '../../lib/blog';
+
+const posts = await getPosts();
+---
+
+<Base title="Blog" description="Dicas e informações sobre seguros: automóvel, residencial, vida, viagem, previdência e mais, pelo time da Herval Corretora de Seguros.">
+  <section class="blog-head">
+    <div class="container">
+      <h1>Blog</h1>
+      <p>Dicas e informações para você escolher e aproveitar melhor o seu seguro.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .blog-head {
+    padding-block: 56px;
+    background: var(--navy);
+    color: var(--white);
+    text-align: center;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--white);
+    font-size: clamp(2rem, 5vw, 3rem);
+    text-transform: uppercase;
+  }
+
+  .blog-head p {
+    margin: 10px 0 0;
+    opacity: 0.85;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

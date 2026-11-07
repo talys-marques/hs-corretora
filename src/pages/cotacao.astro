@@ -1,0 +1,93 @@
+---
+// The old /cotacao/ page had an Elementor form with document uploads, which needs a backend.
+// Until the business decides how to handle those files (LGPD), this page routes people to the
+// online quote platform, WhatsApp or phone.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site, whatsappLink } from '../config/site';
+
+const cotacaoPhone = site.phones[1];
+---
+
+<Base title="Cotação" description="Solicite sua cotação de seguro com a Herval Corretora: online, pelo WhatsApp ou por telefone. Atendimento 100% humanizado.">
+  <PageHero title="Cotação" image="/uploads/2021/12/cotacao.webp" />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Solicite sua cotação</h2>
+        <p>Escolha a forma mais prática para você. Nosso time de especialistas vai personalizar a sua proposta.</p>
+      </div>
+
+      <ul class="options">
+        <li>
+          <span class="icon"><Icon name="external" size={26} /></span>
+          <h3>Cotação online</h3>
+          <p>Preencha seus dados na nossa plataforma de cotação e receba propostas das seguradoras parceiras.</p>
+          <a class="btn btn--primary" href={site.quote.primaryUrl} target="_blank" rel="noopener">Cotar agora</a>
+        </li>
+        <li>
+          <span class="icon"><Icon name="whatsapp" size={26} /></span>
+          <h3>WhatsApp</h3>
+          <p>Converse com um especialista e envie documentos (apólice anterior, CNH, comprovante de residência) por lá.</p>
+          <a class="btn btn--primary" href={whatsappLink()} target="_blank" rel="noopener">Chamar no WhatsApp</a>
+        </li>
+        <li>
+          <span class="icon"><Icon name="phone" size={26} /></span>
+          <h3>Telefone</h3>
+          <p>{cotacaoPhone.hours}</p>
+          <a class="btn btn--ghost" href={`tel:${cotacaoPhone.tel}`}>{cotacaoPhone.number}</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .options li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 28px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    background: rgb(217 33 46 / 0.1);
+    color: var(--red);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  p {
+    flex: 1;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

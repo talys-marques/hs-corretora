@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductGrid from '../components/ProductGrid.astro';
+---
+
+<Base title="Para Empresas" description="Seguros corporativos para proteger seu negócio: empresarial, frota, responsabilidade civil, vida em grupo, transporte e mais.">
+  <PageHero upper={false} title="Toda empresa precisa ter segurança." subtitle="Aqui sua empresa contará com serviços, coberturas e benefícios exclusivos." image="/uploads/2021/12/banner-paraempresas.webp" />
+  <div class="container section-head intro">
+    <h2>Conheça nossos seguros corporativos!</h2>
+    <p>Proteja seu negócio de imprevistos. Conheça nossos seguros disponíveis para proteger seu empreendimento.</p>
+  </div>
+  <ProductGrid audience="pj" title="Para sua empresa" />
+</Base>
+
+<style>
+  .intro {
+    padding-top: clamp(40px, 6vw, 64px);
+  }
+</style>

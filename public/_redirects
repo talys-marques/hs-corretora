@@ -1,0 +1,11 @@
+# 301 redirects for old WordPress URLs (Netlify / Cloudflare Pages format).
+# For other hosts, translate these rules to the host's own config.
+/wp-content/uploads/*   /uploads/:splat   301
+/category/*             /blog/            301
+/author/*               /blog/            301
+/feed/                  /blog/            301
+/comments/feed/         /blog/            301
+/sitemap_index.xml      /sitemap-index.xml 301
+/page-sitemap.xml       /sitemap-index.xml 301
+/post-sitemap.xml       /sitemap-index.xml 301
+/home/                  /                 301

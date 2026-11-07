@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import ImageCard from './ImageCard.astro';
+
+interface Props {
+  audience: 'pf' | 'pj';
+  title: string;
+}
+const { audience, title } = Astro.props;
+
+const orderKey = audience === 'pf' ? 'order' : 'orderPj';
+const products = (await getCollection('produtos', ({ data }) => data.listed && data.audience.includes(audience))).sort(
+  (a, b) => a.data[orderKey] - b.data[orderKey] || a.data.title.localeCompare(b.data.title, 'pt-BR'),
+);
+---
+
+<section class="container product-section" aria-labelledby={`grid-${audience}`}>
+  <h2 id={`grid-${audience}`} class="divider-title">{title}</h2>
+  <div class="grid">
+    {products.map((p) => <ImageCard title={p.data.title} href={`/${p.id}/`} image={p.data.card} />)}
+  </div>
+</section>
+
+<style>
+  .product-section {
+    padding-bottom: clamp(48px, 7vw, 88px);
+  }
+
+  .divider-title {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 32px;
+    font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .divider-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--red);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,21 @@
+{
+  "name": "hs-corretora",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "import:wp": "node scripts/import-wp.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/open-sans": "^5.3.0",
+    "astro": "^7.4.7"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0",
+    "turndown": "^7.2.5"
+  }
+}

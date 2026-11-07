@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+
+const youtubeId = '3Q3ZoqTy5v8';
+---
+
+<Base title="Sobre Nós" description="A Herval Corretora oferece seguros personalizados para pessoas e empresas, com a solidez e a credibilidade do Grupo Herval, presente no mercado desde 1959.">
+  <PageHero title="Sobre nós" image="/uploads/2021/12/Foto-aerea_2014_HMC-valendo.webp" />
+
+  <section class="section">
+    <div class="container split">
+      <div class="video">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+          title="Vídeo institucional da Herval Corretora"
+          loading="lazy"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div>
+        <h2>Sobre nós</h2>
+        <p>
+          Na <strong>Herval Corretora</strong>, sabemos que cada cliente tem uma história única. Por isso, trabalhamos para oferecer <strong>seguros personalizados</strong>,
+          garantindo a sua segurança e tranquilidade, seja como pessoa física ou empresa.
+        </p>
+        <p>
+          Com a solidez e a credibilidade do <strong>Grupo Herval</strong>, presente no mercado desde 1959, levamos proteção para o que realmente mais importa para você. Estamos
+          aqui para ajudar a encontrar a melhor solução para o seu momento, com atendimento próximo e transparente.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--gray">
+    <div class="container split split--reverse">
+      <img src="/uploads/2025/04/FOTOS-AEREAS-MATRIZ-2-1024x768.jpg" alt="Vista aérea da matriz do Grupo Herval em Dois Irmãos (RS)" width="1024" height="768" loading="lazy" />
+      <div>
+        <h2>O Grupo Herval</h2>
+        <p>
+          O Grupo Herval é uma empresa gaúcha fundada em 1959, em Dois Irmãos. Integra segmentos diferenciados, com alcance global em mais de 20 países. Atualmente são 27
+          marcas que incluem segmentos de indústria, comércio/varejo, serviços, B2B e marcas próprias - entre elas a Herval Corretora de Seguros.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(24px, 5vw, 56px);
+  }
+
+  .split--reverse > img {
+    order: 2;
+    border-radius: var(--radius);
+  }
+
+  .video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+
+  .video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+  }
+
+  @media (max-width: 767px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+
+    .split--reverse > img {
+      order: 0;
+    }
+  }
+</style>

@@ -1,0 +1,154 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { site, whatsappLink } from '../config/site';
+---
+
+<Base title="Contato" description="Fale com a Herval Corretora de Seguros: telefones, WhatsApp, e-mail e formulário de contato. Dúvidas, reclamações ou sugestões.">
+  <PageHero title="Contato" image="/uploads/2021/12/banner-contato.webp" />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Dúvidas, reclamações ou sugestões?</h2>
+        <p>Entre em contato com a gente, responderemos o mais rápido possível.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="card">
+          <ContactForm />
+        </div>
+
+        <div class="side">
+          <ul class="channels">
+            {
+              site.phones.map((p) => (
+                <li>
+                  <span class="channels__icon">
+                    <Icon name="phone" />
+                  </span>
+                  <div>
+                    <a href={`tel:${p.tel}`}>{p.number}</a>
+                    <strong>{p.label}</strong>
+                    <span>{p.hours}</span>
+                  </div>
+                </li>
+              ))
+            }
+            <li>
+              <span class="channels__icon">
+                <Icon name="whatsapp" />
+              </span>
+              <div>
+                <a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a>
+                <span>Cotações pelo WhatsApp</span>
+              </div>
+            </li>
+            <li>
+              <span class="channels__icon">
+                <Icon name="mail" />
+              </span>
+              <div>
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+                <span>E-mail</span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="map">
+            <iframe
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(site.address.mapQuery)}&t=m&z=13&output=embed&iwloc=near`}
+              title="Mapa: localização do Grupo Herval"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .card {
+    padding: clamp(20px, 3vw, 36px);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .side {
+    display: grid;
+    gap: 24px;
+  }
+
+  .channels {
+    display: grid;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .channels li {
+    display: flex;
+    gap: 14px;
+  }
+
+  .channels__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+  }
+
+  .channels div {
+    display: grid;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .channels a {
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .channels a:hover {
+    color: var(--red);
+  }
+
+  .channels span {
+    color: var(--text-muted);
+  }
+
+  .map {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

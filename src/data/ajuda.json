@@ -1,0 +1,156 @@
+{
+  "sinistroPdf": "/uploads/2024/02/Sinistros.pdf",
+  "seguradoras": [
+    {
+      "name": "Alba Seguradora",
+      "logo": "/uploads/2025/12/alba.jpg",
+      "site": "https://www.alba.com.br/",
+      "whatsapp": "(71) 9703-6683",
+      "phone": "0800 202 4015"
+    },
+    {
+      "name": "Alfa Seguros",
+      "logo": "/uploads/2021/11/alfa-pb-ajuda.png",
+      "site": "https://wwws.alfaseguradora.com.br/portal/",
+      "whatsapp": "(11) 4393-1567",
+      "phone": "0800 888 2532"
+    },
+    {
+      "name": "Aliro Seguros",
+      "logo": "/uploads/2025/12/aliro.jpg",
+      "site": "https://www.aliroseguro.com.br/Pages/Home.aspx",
+      "whatsapp": "(11) 3206-1414",
+      "phone": "0800 770 1318"
+    },
+    {
+      "name": "Allianz",
+      "logo": "/uploads/2021/11/allianz-pb-ajuda.png",
+      "site": "https://www.allianz.com.br/",
+      "whatsapp": "(11) 4090-1444",
+      "phone": "0800 709 5423"
+    },
+    {
+      "name": "AXA Seguradora",
+      "logo": "/uploads/2021/11/axa-pb-ajuda.png",
+      "site": "https://axa.com.br/",
+      "whatsapp": "",
+      "phone": "0800 778 9125"
+    },
+    {
+      "name": "Azul Seguros",
+      "logo": "/uploads/2025/12/azul1.jpg",
+      "site": "https://www.azulseguros.com.br/",
+      "whatsapp": "(21) 3906-2985",
+      "phone": "0800 703 0203"
+    },
+    {
+      "name": "Bradesco Seguros",
+      "logo": "/uploads/2021/11/bradesco-pb-ajuda.png",
+      "site": "https://www.bradescoseguros.com.br/clientes",
+      "whatsapp": "(21) 4004-2703",
+      "phone": "0800 701 2757"
+    },
+    {
+      "name": "Ezze Seguros",
+      "logo": "/uploads/2025/12/ezze.jpg",
+      "site": "https://ezzeseguros.com.br/",
+      "whatsapp": "(11) 94732-8081",
+      "phone": "0800 983 3993"
+    },
+    {
+      "name": "HDI Seguros",
+      "logo": "/uploads/2021/11/hdi-pb-ajuda.png",
+      "site": "https://www.hdiseguros.com.br/",
+      "whatsapp": "(11) 5502-0700",
+      "phone": "0800 434 4340"
+    },
+    {
+      "name": "Itaú Seguros",
+      "logo": "/uploads/2021/11/itau-pb-ajuda.png",
+      "site": "https://www.itau.com.br/seguros",
+      "whatsapp": "(11) 4004-4828",
+      "phone": "0800 720 1010"
+    },
+    {
+      "name": "Mapfre",
+      "logo": "/uploads/2021/11/mapfre-pb-ajuda.png",
+      "site": "https://www.mapfre.com.br/para-voce/",
+      "whatsapp": "(11) 4004-0101",
+      "phone": "0800 705 0101"
+    },
+    {
+      "name": "Mitsui Sumitomo Seguros",
+      "logo": "/uploads/2025/12/mitsui1.jpg",
+      "site": "https://msig.com.br/",
+      "whatsapp": "",
+      "phone": "0800 773 6744"
+    },
+    {
+      "name": "Porto Seguro",
+      "logo": "/uploads/2021/11/porto-pb-ajuda.png",
+      "site": "https://www.portoseguro.com.br/",
+      "whatsapp": "(11) 3003-9303",
+      "phone": "0800 727 0800"
+    },
+    {
+      "name": "Pottencial Seguradora",
+      "logo": "/uploads/2025/12/pottencial.jpg",
+      "site": "https://pottencial.com.br/",
+      "whatsapp": "(31) 2121-7777",
+      "phone": "0800 727 2449"
+    },
+    {
+      "name": "Suhai Seguradora",
+      "logo": "/uploads/2025/12/suhai.jpg",
+      "site": "https://suhaiseguradora.com/",
+      "whatsapp": "(11) 3003-0319",
+      "phone": "0800 327 8424"
+    },
+    {
+      "name": "Suíça Seguradora",
+      "logo": "/uploads/2025/12/suica.jpg",
+      "site": "https://www.suicaseguradora.com.br/",
+      "whatsapp": "",
+      "phone": "0800 942 8774"
+    },
+    {
+      "name": "Tokio Marine Seguradora",
+      "logo": "/uploads/2021/11/tokio-pb-ajuda.png",
+      "site": "https://www.tokiomarine.com.br/",
+      "whatsapp": "(11) 99578-6546",
+      "phone": "0800 318 6546"
+    },
+    {
+      "name": "Yelum Seguradora",
+      "logo": "/uploads/2025/12/yelum.jpg",
+      "site": "https://www.yelumseguros.com.br/Pages/Home.aspx",
+      "whatsapp": "(12) 3206-1414",
+      "phone": "0800 709 5423"
+    },
+    {
+      "name": "Zurich Seguros",
+      "logo": "/uploads/2021/11/zurick-pb-ajuda.png",
+      "site": "https://www.zurich.com.br/",
+      "whatsapp": "(11) 2890-2121",
+      "phone": "0800 729 1400"
+    }
+  ],
+  "links": [
+    {
+      "label": "FIPE",
+      "url": "https://veiculos.fipe.org.br/"
+    },
+    {
+      "label": "DELEGACIA ONLINE",
+      "url": "https://www.delegaciaonline.rs.gov.br/"
+    },
+    {
+      "label": "DETRAN RS",
+      "url": "https://www.detran.rs.gov.br/inicial"
+    },
+    {
+      "label": "SUSEP",
+      "url": "http://novosite.susep.gov.br/"
+    }
+  ]
+}

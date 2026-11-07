@@ -1,0 +1,85 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site, whatsappLink } from '../config/site';
+
+export async function getStaticPaths() {
+  const produtos = await getCollection('produtos');
+  return produtos.map((entry) => ({ params: { produto: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const parent = d.audience.includes('pj') && !d.audience.includes('pf') ? { label: 'Para Empresas', href: '/para-empresas/' } : { label: 'Para Você', href: '/para-voce/' };
+
+const schema = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: parent.label, item: `${site.url}${parent.href}` },
+      { '@type': 'ListItem', position: 3, name: d.title },
+    ],
+  },
+  {
+    '@type': 'Service',
+    name: `Seguro ${d.title}`,
+    serviceType: 'Seguro',
+    description: d.description,
+    provider: { '@id': `${site.url}/#organization` },
+    areaServed: 'BR',
+  },
+];
+---
+
+<Base title={d.title} description={d.description} image={d.hero} schema={schema}>
+  <PageHero title={d.title} image={d.hero} />
+
+  <article class="container section product">
+    <nav class="breadcrumb" aria-label="Você está em">
+      <a href="/">Início</a> / <a href={parent.href}>{parent.label}</a> / <span aria-current="page">{d.title}</span>
+    </nav>
+
+    <h2>{d.heading}</h2>
+    <div class="prose">
+      <Content />
+    </div>
+
+    <div class="actions">
+      <a class="btn btn--primary" href={site.quote.productUrl} target="_blank" rel="noopener">Solicite aqui sua cotação</a>
+      <a class="btn btn--ghost" href={whatsappLink(`Olá, gostaria de fazer uma cotação de seguro ${d.title}`)} target="_blank" rel="noopener">
+        Falar no WhatsApp
+      </a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .product {
+    max-width: 900px;
+  }
+
+  .breadcrumb {
+    margin-bottom: 24px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  .breadcrumb a {
+    color: inherit;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+</style>

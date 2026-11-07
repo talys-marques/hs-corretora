@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+import { site } from '../config/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  // Extra JSON-LD nodes for the page (Article, BreadcrumbList...)
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { title, description = site.description, image = site.ogImage, type = 'website', schema = [], noindex = false } = Astro.props;
+
+const fullTitle = title === site.name ? site.name : `${title} - ${site.name}`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+
+const organization = {
+  '@type': 'InsuranceAgency',
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  url: site.url,
+  logo: new URL(site.logo, site.url).href,
+  image: new URL(site.ogImage, site.url).href,
+  email: site.email,
+  telephone: site.phones[0].tel,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.address.locality,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
+  },
+  parentOrganization: { '@type': 'Organization', name: 'Grupo Herval' },
+  sameAs: site.social.map((s) => s.url),
+};
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [organization, { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.name, inLanguage: 'pt-BR', publisher: { '@id': organization['@id'] } }, ...schema],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/uploads/2021/12/cropped-favicon-hs-32x32.png" sizes="32x32" />
+    <link rel="icon" href="/uploads/2021/12/cropped-favicon-hs-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/uploads/2021/12/cropped-favicon-hs-180x180.png" />
+    <meta name="theme-color" content="#1e1a34" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Google Analytics 4 -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`}></script>
+    <script is:inline define:vars={{ gaId: site.gaId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', gaId);
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <Header />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppButton />
+  </body>
+</html>

@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductGrid from '../components/ProductGrid.astro';
+---
+
+<Base title="Para Você" description="Seguros para você, sua família e seu patrimônio: automóvel, residencial, vida, viagem, celular e muito mais. Solicite uma cotação personalizada.">
+  <PageHero upper={false} title="Compromisso com sua satisfação!" subtitle="Estamos prontos para lhe oferecer um atendimento personalizado e uma experiência positiva na escolha de um seguro." image="/uploads/2021/12/banner-paravoce.webp" />
+  <div class="container section-head intro">
+    <h2>Escolha o melhor para você</h2>
+    <p>Conheça nossa variedade de opções e solicite uma cotação personalizada.</p>
+  </div>
+  <ProductGrid audience="pf" title="Para você" />
+</Base>
+
+<style>
+  .intro {
+    padding-top: clamp(40px, 6vw, 64px);
+  }
+</style>
