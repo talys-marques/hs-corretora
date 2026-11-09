@@ -4,6 +4,7 @@ import { site } from '../config/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { isPreview, stripBase } from '../lib/url';
 
 interface Props {
   title: string;
@@ -18,7 +19,8 @@ interface Props {
 const { title, description = site.description, image = site.ogImage, type = 'website', schema = [], noindex = false } = Astro.props;
 
 const fullTitle = title === site.name ? site.name : `${title} - ${site.name}`;
-const canonical = new URL(Astro.url.pathname, site.url).href;
+// Canonical always points to the production domain, also on preview builds
+const canonical = new URL(stripBase(Astro.url.pathname), site.url).href;
 const ogImage = new URL(image, site.url).href;
 
 const organization = {
@@ -53,7 +55,7 @@ const jsonLd = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {(noindex || isPreview) && <meta name="robots" content="noindex, follow" />}
 
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:type" content={type} />
@@ -72,16 +74,22 @@ const jsonLd = {
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Google Analytics 4 -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`}></script>
-    <script is:inline define:vars={{ gaId: site.gaId }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', gaId);
-    </script>
+    {
+      /* Google Analytics 4 - production only, so previews don't pollute the real property */
+      !isPreview && (
+        <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`} />
+          <script is:inline define:vars={{ gaId: site.gaId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', gaId);
+          </script>
+        </>
+      )
+    }
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>

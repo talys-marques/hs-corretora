@@ -1,8 +1,9 @@
 ---
 import { site, nav } from '../config/site';
 import Icon from './Icon.astro';
+import { stripBase } from '../lib/url';
 
-const current = Astro.url.pathname;
+const current = stripBase(Astro.url.pathname);
 const isActive = (href: string) => href !== '/' && current.startsWith(href);
 ---
 

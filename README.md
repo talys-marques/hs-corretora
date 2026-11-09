@@ -16,6 +16,22 @@ Reconstrução do site [hervalcorretora.com.br](https://hervalcorretora.com.br) 
 | `npm run preview` | Serve o `dist/` localmente |
 | `npm run import:wp` | Importa de novo conteúdo e imagens do WordPress (ver abaixo) |
 
+## Prévia no GitHub Pages
+
+A cada push na `main`, o workflow `.github/workflows/deploy-pages.yml` publica uma prévia em
+**https://talys-marques.github.io/hs-corretora/**.
+
+Por estar num subcaminho, essa prévia é gerada com `BASE_PATH=/hs-corretora`. A integração `integrations/base-path.mjs` acrescenta esse prefixo a todos os links e imagens do HTML gerado. Na prévia, o site também:
+
+- marca as páginas com `noindex`, e o canonical continua apontando para `hervalcorretora.com.br`
+- não carrega o GA4, para não misturar visitas da prévia com os dados de produção
+
+O formulário de contato continua enviando ao Emarsys de verdade. Não use dados de teste nele sem combinar com quem cuida do CRM.
+
+Sem as variáveis `SITE_URL` e `BASE_PATH`, o build gera a versão de produção, servida na raiz do domínio.
+
+> Para testar a prévia localmente no Git Bash do Windows, use `MSYS_NO_PATHCONV=1`. Sem isso, o Git Bash converte `/hs-corretora` num caminho do Windows.
+
 ## Onde mudar o quê
 
 | Quero mudar… | Arquivo |
