@@ -177,7 +177,22 @@ const steps = [
     <div class="container">
       <div class="group__grid">
         <div class="group__media">
-          <video src="/uploads/2025/04/C0012_1-2.mp4" controls muted playsinline preload="metadata" aria-label="Equipe da Herval Corretora"></video>
+          <!-- Behaves like a GIF: silent, looping, no controls (lighter and sharper than a real GIF) -->
+          <video
+            src="/videos/equipe.mp4"
+            poster="/videos/equipe-poster.webp"
+            autoplay
+            muted
+            loop
+            playsinline
+            disablepictureinpicture
+            disableremoteplayback
+            preload="auto"
+            width="1280"
+            height="720"
+            role="img"
+            aria-label="Equipe da Herval Corretora em frente à sede do Grupo Herval"
+            data-loop-video></video>
         </div>
         <div>
           <p class="eyebrow">Sobre nós</p>
@@ -236,6 +251,24 @@ const steps = [
 
   <FinalCta />
 </Base>
+
+<script>
+  // Looping "GIF-like" videos: stay on the poster for people who prefer reduced motion,
+  // and pause while off-screen to save battery and CPU.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll<HTMLVideoElement>('[data-loop-video]').forEach((video) => {
+    if (reduceMotion.matches) {
+      video.removeAttribute('autoplay');
+      video.pause();
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) video.play().catch(() => {});
+      else video.pause();
+    });
+    observer.observe(video);
+  });
+</script>
 
 <style>
   /* ---------- Hero ---------- */
@@ -633,12 +666,15 @@ const steps = [
   }
 
   .group__media video {
+    display: block;
     width: 100%;
+    height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     border-radius: var(--radius-lg);
     background: var(--ink);
     box-shadow: var(--shadow-lift);
+    pointer-events: none;
   }
 
 

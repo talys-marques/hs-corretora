@@ -114,7 +114,10 @@ docs/ANALISE.md           análise do site antigo que guiou a reconstrução
 3. **Páginas fora das listagens:** `nautico`, `nautico-empresas` e `garantia-estendida` têm página, mas `listed: false`. Publicar nas listagens ou remover (com 301)?
 4. **Produtos duplicados:** `garantia-de-aluguel` e `fianca-locaticia` são o mesmo produto. Vale fundir?
 5. **Hospedagem e DNS:** o `public/_redirects` funciona no Netlify e no Cloudflare Pages. Em outro host, os 301 precisam ser traduzidos para a configuração dele.
-6. **Vídeo da home:** `C0012_1-2.mp4` tem 13,8 MB para 2 segundos. Vale recomprimir ou trocar por uma imagem.
+
+## Vídeo da equipe (home)
+
+`public/videos/equipe.mp4` (1280×720, H.264, cerca de 1 MB) toca como um GIF: sem som, em loop e sem controles. A capa fica em `public/videos/equipe-poster.webp`. Para quem configurou o sistema para reduzir animações, só a capa aparece; o vídeo também pausa quando sai da tela. Ele foi recomprimido a partir do original de 13,8 MB do WordPress.
 
 ## Reimportar do WordPress
 
