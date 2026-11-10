@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 12
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/vidadesk.webp"
-card: "/uploads/2021/12/vidadesk-1.webp"
+hero: "/images/seguros/vida-lg.webp"
+card: "/images/seguros/vida-sm.webp"
 updated: "2025-05-13T16:29:16"
 ---
 

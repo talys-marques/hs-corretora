@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 8
 orderPj: 8
 listed: true
-hero: "/uploads/2021/12/responsabilidade-civil-header.webp"
-card: "/uploads/2021/12/responsibilidade-civil-desk.webp"
+hero: "/images/seguros/responsabilidade-civil-lg.webp"
+card: "/images/seguros/responsabilidade-civil-sm.webp"
 updated: "2024-02-09T11:30:54"
 ---
 

@@ -96,6 +96,16 @@ async function importProducts(pages) {
   const listings = [...(await readListing('para-voce', 'pf')), ...(await readListing('para-empresas', 'pj'))];
   const products = pages.filter((p) => !INSTITUTIONAL.has(p.slug));
   const outDir = 'src/content/produtos';
+  // Images were replaced by curated stock photos (see src/data/creditos-imagens.json):
+  // keep the hero/card already set in each product instead of the WordPress ones
+  const keptImages = {};
+  for (const f of await fs.readdir(path.join(ROOT, outDir)).catch(() => [])) {
+    const s = await fs.readFile(path.join(ROOT, outDir, f), 'utf8');
+    keptImages[f.replace(/\.md$/, '')] = {
+      hero: (s.match(/^hero: "([^"]*)"/m) || [])[1],
+      card: (s.match(/^card: "([^"]*)"/m) || [])[1],
+    };
+  }
   await fs.rm(path.join(ROOT, outDir), { recursive: true, force: true });
 
   for (const page of products) {
@@ -128,8 +138,8 @@ async function importProducts(pages) {
       order: inListings[0]?.order ?? 99,
       orderPj: inListings.find((l) => l.audience === 'pj')?.order ?? 99,
       listed: inListings.length > 0,
-      hero,
-      card: inListings[0]?.card || hero,
+      hero: keptImages[page.slug]?.hero || hero,
+      card: keptImages[page.slug]?.card || inListings[0]?.card || hero,
       updated: page.modified,
     };
     await writeFile(`${outDir}/${page.slug}.md`, frontmatter(fm) + '\n' + body + '\n');

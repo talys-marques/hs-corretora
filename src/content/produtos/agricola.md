@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 1
 orderPj: 1
 listed: true
-hero: "/uploads/2021/12/agricolaheader.webp"
-card: "/uploads/2021/12/agricoladesk.webp"
+hero: "/images/seguros/agricola-lg.webp"
+card: "/images/seguros/agricola-sm.webp"
 updated: "2024-02-09T11:11:29"
 ---
 

@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 9
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/previdemcia-privadaheader.webp"
-card: "/uploads/2021/12/previdencia-privada-desk.webp"
+hero: "/images/seguros/previdencia-privada-lg.webp"
+card: "/images/seguros/previdencia-privada-sm.webp"
 updated: "2025-05-13T16:18:11"
 ---
 

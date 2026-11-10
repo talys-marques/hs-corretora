@@ -45,6 +45,18 @@ Sem as variáveis `SITE_URL` e `BASE_PATH`, o build gera a versão de produção
 | Logos do carrossel de parceiras | `src/data/seguradoras-parceiras.json` |
 | Empresas do Grupo | `src/data/empresas-grupo.json` |
 | Cores, fonte e espaçamentos | `src/styles/global.css` (variáveis em `:root`) |
+| Fotos das páginas e dos seguros | `public/images/` (créditos e origem em `src/data/creditos-imagens.json`) |
+
+### Imagens
+
+As fotos de páginas e seguros vêm do [Unsplash](https://unsplash.com/license), cuja licença permite uso comercial gratuito, sem exigir atribuição. Mesmo assim, autor e ID de cada foto ficam registrados em `src/data/creditos-imagens.json`.
+
+Para trocar uma foto:
+1. Atualize o `cdn` da foto em `src/data/creditos-imagens.json` (é o trecho `photo-…` da URL `images.unsplash.com`).
+2. Baixe o original em `scripts/.image-originals/<cdn>.jpg`.
+3. Rode `python scripts/optimize-images.py`.
+
+O script gera WebP de 1600px para as páginas e, para cada seguro, um `-lg` (1400px, abertura da página) e um `-sm` (720px, cards). As fotos reais da Herval (vista aérea, matriz e vídeo da equipe) continuam em `public/uploads/`.
 
 ### Frontmatter de um produto
 

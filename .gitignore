@@ -8,3 +8,4 @@ Thumbs.db
 
 # importer scratch output
 scripts/.institutional-images.json
+scripts/.image-originals/

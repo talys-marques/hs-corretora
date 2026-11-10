@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 1
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/acidentes-pessoaisheader.webp"
-card: "/uploads/2021/12/acidentes-pessoais-desk.webp"
+hero: "/images/seguros/acidentes-pessoais-lg.webp"
+card: "/images/seguros/acidentes-pessoais-sm.webp"
 updated: "2025-05-09T17:38:04"
 ---
 

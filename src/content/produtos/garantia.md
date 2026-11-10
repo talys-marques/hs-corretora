@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 6
 orderPj: 6
 listed: true
-hero: "/uploads/2021/12/garantiaheader.webp"
-card: "/uploads/2021/12/garantiadesk.webp"
+hero: "/images/seguros/garantia-lg.webp"
+card: "/images/seguros/garantia-sm.webp"
 updated: "2024-02-09T11:20:15"
 ---
 

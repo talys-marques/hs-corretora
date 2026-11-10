@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 4
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/captalizacaoheader.webp"
-card: "/uploads/2021/12/captalizacaodesk.webp"
+hero: "/images/seguros/capitalizacao-lg.webp"
+card: "/images/seguros/capitalizacao-sm.webp"
 updated: "2024-02-09T11:01:03"
 ---
 

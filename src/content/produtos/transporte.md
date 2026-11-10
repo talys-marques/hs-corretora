@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 11
 orderPj: 11
 listed: true
-hero: "/uploads/2021/12/transporteheader.webp"
-card: "/uploads/2021/12/transportedesk.webp"
+hero: "/images/seguros/transporte-lg.webp"
+card: "/images/seguros/transporte-sm.webp"
 updated: "2025-05-15T09:10:44"
 ---
 

@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 14
 orderPj: 99
 listed: true
-hero: "/uploads/2026/05/fianca_locaticia.png"
-card: "/uploads/2026/05/fianca_locaticia.png"
+hero: "/images/seguros/fianca-locaticia-lg.webp"
+card: "/images/seguros/fianca-locaticia-sm.webp"
 updated: "2026-05-11T16:12:29"
 ---
 

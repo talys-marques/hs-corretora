@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 5
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/cartaverdedesk.webp"
-card: "/uploads/2021/12/cartaverdedesk-1.webp"
+hero: "/images/seguros/carta-verde-lg.webp"
+card: "/images/seguros/carta-verde-sm.webp"
 updated: "2025-05-13T16:06:00"
 ---
 

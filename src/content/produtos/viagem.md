@@ -6,8 +6,8 @@ audience: ["pf", "pj"]
 order: 11
 orderPj: 12
 listed: true
-hero: "/uploads/2021/12/viagemheader2.webp"
-card: "/uploads/2021/12/viagemdesk2.webp"
+hero: "/images/seguros/viagem-lg.webp"
+card: "/images/seguros/viagem-sm.webp"
 updated: "2025-05-15T09:12:55"
 ---
 

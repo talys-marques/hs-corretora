@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 5
 orderPj: 5
 listed: true
-hero: "/uploads/2021/12/frotadesk.webp"
-card: "/uploads/2021/12/veiculo-empresadesk.webp"
+hero: "/images/seguros/frota-lg.webp"
+card: "/images/seguros/frota-sm.webp"
 updated: "2024-02-09T11:13:57"
 ---
 

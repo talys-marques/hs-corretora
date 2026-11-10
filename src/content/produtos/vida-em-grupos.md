@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 7
 orderPj: 7
 listed: true
-hero: "/uploads/2021/12/Vida-em-grupoheader2.webp"
-card: "/uploads/2021/12/vidaemgrupodesk2.webp"
+hero: "/images/seguros/vida-em-grupos-lg.webp"
+card: "/images/seguros/vida-em-grupos-sm.webp"
 updated: "2025-05-15T09:18:39"
 ---
 

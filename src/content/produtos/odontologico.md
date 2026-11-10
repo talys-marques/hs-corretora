@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 8
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/odontologicoheader.webp"
-card: "/uploads/2021/12/odontologico-desk.webp"
+hero: "/images/seguros/odontologico-lg.webp"
+card: "/images/seguros/odontologico-sm.webp"
 updated: "2024-02-09T11:05:33"
 ---
 

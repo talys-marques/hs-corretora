@@ -6,8 +6,8 @@ audience: ["pf", "pj"]
 order: 6
 orderPj: 4
 listed: true
-hero: "/uploads/2021/12/equipamentosheader.webp"
-card: "/uploads/2021/12/equipamentosdesk.webp"
+hero: "/images/seguros/equipamentos-lg.webp"
+card: "/images/seguros/equipamentos-sm.webp"
 updated: "2025-05-13T16:43:19"
 ---
 

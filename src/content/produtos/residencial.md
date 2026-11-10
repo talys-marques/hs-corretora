@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 10
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/redisencialheader.webp"
-card: "/uploads/2021/12/residencial-desk.webp"
+hero: "/images/seguros/residencial-lg.webp"
+card: "/images/seguros/residencial-sm.webp"
 updated: "2025-05-13T16:21:58"
 ---
 

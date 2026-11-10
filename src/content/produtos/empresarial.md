@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 3
 orderPj: 3
 listed: true
-hero: "/uploads/2021/12/empresarialdesk.webp"
-card: "/uploads/2021/12/empresarialdesk.webp"
+hero: "/images/seguros/empresarial-lg.webp"
+card: "/images/seguros/empresarial-sm.webp"
 updated: "2025-05-13T16:40:29"
 ---
 

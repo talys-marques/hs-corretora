@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 10
 orderPj: 10
 listed: true
-hero: "/uploads/2021/12/saudeheader.webp"
-card: "/uploads/2021/12/saudedesk.webp"
+hero: "/images/seguros/saude-lg.webp"
+card: "/images/seguros/saude-sm.webp"
 updated: "2025-05-15T09:05:31"
 ---
 

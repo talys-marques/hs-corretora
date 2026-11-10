@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 15
 orderPj: 99
 listed: true
-hero: "/uploads/2026/06/CELULAR-scaled.jpg"
-card: "/uploads/2026/06/CELULAR-1024x683.jpg"
+hero: "/images/seguros/celular-lg.webp"
+card: "/images/seguros/celular-sm.webp"
 updated: "2026-06-08T11:39:27"
 ---
 

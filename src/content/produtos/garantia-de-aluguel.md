@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 7
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/imobiliarioheader.webp"
-card: "/uploads/2021/12/imobiliario-desk.webp"
+hero: "/images/seguros/garantia-de-aluguel-lg.webp"
+card: "/images/seguros/garantia-de-aluguel-sm.webp"
 updated: "2025-05-13T16:08:35"
 ---
 

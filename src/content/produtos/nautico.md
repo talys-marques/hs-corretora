@@ -6,8 +6,8 @@ audience: []
 order: 99
 orderPj: 99
 listed: false
-hero: "/uploads/2021/12/nauticoheader.webp"
-card: "/uploads/2021/12/nauticoheader.webp"
+hero: "/images/seguros/nautico-lg.webp"
+card: "/images/seguros/nautico-sm.webp"
 updated: "2024-02-09T11:04:59"
 ---
 

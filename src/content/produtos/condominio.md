@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 2
 orderPj: 2
 listed: true
-hero: "/uploads/2021/12/condominiosheader.webp"
-card: "/uploads/2021/12/condominiodesk.webp"
+hero: "/images/seguros/condominio-lg.webp"
+card: "/images/seguros/condominio-sm.webp"
 updated: "2025-05-13T16:39:03"
 ---
 

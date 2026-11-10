@@ -6,8 +6,8 @@ audience: []
 order: 99
 orderPj: 99
 listed: false
-hero: "/uploads/2021/12/nautico-corporativoheader.webp"
-card: "/uploads/2021/12/nautico-corporativoheader.webp"
+hero: "/images/seguros/nautico-empresas-lg.webp"
+card: "/images/seguros/nautico-empresas-sm.webp"
 updated: "2024-02-09T11:29:54"
 ---
 

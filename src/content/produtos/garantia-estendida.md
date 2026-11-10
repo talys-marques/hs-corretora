@@ -6,8 +6,8 @@ audience: []
 order: 99
 orderPj: 99
 listed: false
-hero: "/uploads/2021/12/garantiaestendidaheader.webp"
-card: "/uploads/2021/12/garantiaestendidaheader.webp"
+hero: "/images/seguros/garantia-estendida-lg.webp"
+card: "/images/seguros/garantia-estendida-sm.webp"
 updated: "2024-02-09T11:03:07"
 ---
 

@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 3
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/bikeheader.webp"
-card: "/uploads/2021/12/bicicleta-desk.webp"
+hero: "/images/seguros/bicicleta-lg.webp"
+card: "/images/seguros/bicicleta-sm.webp"
 updated: "2025-05-13T16:03:33"
 ---
 

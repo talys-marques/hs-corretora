@@ -6,8 +6,8 @@ audience: ["pj"]
 order: 9
 orderPj: 9
 listed: true
-hero: "/uploads/2021/12/riscos-diversosheader2.webp"
-card: "/uploads/2021/12/riscos-diversossdesk2.webp"
+hero: "/images/seguros/riscos-diversos-lg.webp"
+card: "/images/seguros/riscos-diversos-sm.webp"
 updated: "2024-02-09T11:31:28"
 ---
 

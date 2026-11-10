@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 2
 orderPj: 99
 listed: true
-hero: "/uploads/2021/12/carta-verdeheader.webp"
-card: "/uploads/2021/12/automoveldesk.webp"
+hero: "/images/seguros/automovel-lg.webp"
+card: "/images/seguros/automovel-sm.webp"
 updated: "2025-05-13T16:00:53"
 ---
 

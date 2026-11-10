@@ -6,8 +6,8 @@ audience: ["pf"]
 order: 13
 orderPj: 99
 listed: true
-hero: "/uploads/2026/06/SCOOTER-scaled.jpg"
-card: "/uploads/2026/06/SCOOTER-scaled.jpg"
+hero: "/images/seguros/scooter-lg.webp"
+card: "/images/seguros/scooter-sm.webp"
 updated: "2026-06-08T11:40:15"
 ---
 
