@@ -10,8 +10,6 @@ imageAlt: ""
 legacyPath: "/2024/03/18/como-acionar-o-seguro-automovel-apos-um-acidente/"
 ---
 
-![](/uploads/2024/03/AdobeStock_226456498_Preview-300x200.jpeg)
-
 Um acidente de carro pode ser uma situação estressante e confusa. Além de lidar com os danos ao veículo e possíveis lesões, é importante entender como acionar o seguro automóvel para garantir uma resolução rápida e eficiente. Aqui, vamos guiá-lo através dos passos essenciais para acionar o seguro após um acidente. 
 
 01 – Verifique se houve lesões: Primeiro passo, cuide de você e dos outros envolvidos. Descubra se alguém se feriu. Se não precisar de ambulância, ligue para a polícia; 

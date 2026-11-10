@@ -1,50 +1,153 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
 import PostCard from '../../components/PostCard.astro';
-import { getPosts } from '../../lib/blog';
+import FinalCta from '../../components/FinalCta.astro';
+import { getPosts, postCategories } from '../../lib/blog';
 
 const posts = await getPosts();
+const [featured, ...rest] = posts;
+
+// Categories of the grid posts, ordered by number of posts
+const counts = new Map<string, number>();
+rest.forEach((p) => postCategories(p).forEach((c) => counts.set(c, (counts.get(c) ?? 0) + 1)));
+const categories = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pt-BR'));
 ---
 
 <Base title="Blog" description="Dicas e informações sobre seguros: automóvel, residencial, vida, viagem, previdência e mais, pelo time da Herval Corretora de Seguros.">
-  <section class="blog-head">
+  <PageIntro
+    crumbs={[{ label: 'Blog' }]}
+    eyebrow="Blog"
+    title="Conteúdo para você decidir melhor"
+    lead="Dicas e informações para escolher, contratar e aproveitar melhor o seu seguro."
+  />
+
+  <section class="section blog" data-blog>
     <div class="container">
-      <h1>Blog</h1>
-      <p>Dicas e informações para você escolher e aproveitar melhor o seu seguro.</p>
+      {
+        featured && (
+          <div class="featured">
+            <PostCard post={featured} featured />
+          </div>
+        )
+      }
+
+      <div class="filters" role="group" aria-label="Filtrar por categoria">
+        <button type="button" aria-pressed="true" data-filter="">Todos <span>{rest.length}</span></button>
+        {
+          categories.map(([name, n]) => (
+            <button type="button" aria-pressed="false" data-filter={name}>
+              {name} <span>{n}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <ul class="grid">
+        {
+          rest.map((post) => (
+            <li>
+              <PostCard post={post} />
+            </li>
+          ))
+        }
+      </ul>
+      <p class="empty" data-empty hidden>Nenhum outro post nessa categoria por enquanto.</p>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container grid">
-      {posts.map((post) => <PostCard post={post} />)}
-    </div>
-  </section>
+  <FinalCta title="Ficou com alguma dúvida sobre seguros?" text="Fale com um especialista da Herval Corretora." />
 </Base>
 
+<script>
+  const root = document.querySelector<HTMLElement>('[data-blog]');
+  const buttons = [...(root?.querySelectorAll<HTMLButtonElement>('[data-filter]') ?? [])];
+  const items = [...(root?.querySelectorAll<HTMLElement>('.grid > li') ?? [])];
+  const empty = root?.querySelector<HTMLElement>('[data-empty]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? '';
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      let visible = 0;
+      items.forEach((li) => {
+        const cats = (li.querySelector<HTMLElement>('[data-categories]')?.dataset.categories ?? '').split('|');
+        const match = !filter || cats.includes(filter);
+        li.hidden = !match;
+        if (match) visible++;
+      });
+      if (empty) empty.hidden = visible > 0;
+    });
+  });
+</script>
+
 <style>
-  .blog-head {
-    padding-block: 56px;
-    background: var(--navy);
-    color: var(--white);
-    text-align: center;
+  .featured {
+    margin-bottom: clamp(40px, 5vw, 56px);
   }
 
-  h1 {
-    margin: 0;
-    color: var(--white);
-    font-size: clamp(2rem, 5vw, 3rem);
-    text-transform: uppercase;
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
   }
 
-  .blog-head p {
-    margin: 10px 0 0;
-    opacity: 0.85;
+  .filters button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .filters button:hover {
+    border-color: var(--ink);
+  }
+
+  .filters button[aria-pressed='true'] {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .filters span {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  .filters [aria-pressed='true'] span {
+    color: rgb(255 255 255 / 0.7);
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .grid li[hidden],
+  .empty[hidden] {
+    display: none;
+  }
+
+  .empty {
+    padding: 24px;
+    border-radius: 16px;
+    background: var(--surface);
+    text-align: center;
   }
 
   @media (max-width: 1024px) {
@@ -56,6 +159,18 @@ const posts = await getPosts();
   @media (max-width: 767px) {
     .grid {
       grid-template-columns: 1fr;
+    }
+
+    .filters {
+      flex-wrap: nowrap;
+      margin-inline: calc(var(--gutter) * -1);
+      padding-inline: var(--gutter);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filters button {
+      flex: none;
     }
   }
 </style>

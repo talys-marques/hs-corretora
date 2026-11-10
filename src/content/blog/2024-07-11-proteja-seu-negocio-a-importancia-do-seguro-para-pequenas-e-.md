@@ -10,8 +10,6 @@ imageAlt: ""
 legacyPath: "/2024/07/11/proteja-seu-negocio-a-importancia-do-seguro-para-pequenas-e-medias-empresas/"
 ---
 
-![](/uploads/2024/07/v2-35a5f1b20527aaa37856f5f1d27a9629_1440w-300x203.jpg)
-
 Gerir uma pequena ou média empresa é um desafio repleto de responsabilidades e riscos. Proteger seu negócio com um seguro adequado é fundamental para garantir a continuidade das operações em situações adversas. Neste artigo, vamos explorar a importância do seguro empresarial e como escolher a melhor cobertura para o seu negócio.  
 
 1.  **O que é o Seguro Empresarial?**

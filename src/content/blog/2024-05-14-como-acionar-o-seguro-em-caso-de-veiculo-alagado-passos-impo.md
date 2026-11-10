@@ -10,8 +10,6 @@ imageAlt: ""
 legacyPath: "/2024/05/14/como-acionar-o-seguro-em-caso-de-veiculo-alagado-passos-importantes/"
 ---
 
-![](/uploads/2024/05/AdobeStock_793733647-300x168.jpeg)
-
 Esperamos que este artigo o encontre bem, apesar das circunstâncias desafiadoras que muitos de nós estamos enfrentando devido ao desastre recente no Rio Grande do Sul. 
 
 Compreendemos que você possa estar lidando com preocupações relacionadas aos danos causados ao seu veículo devido a inundações ou alagamentos. Estamos aqui para ajudá-lo a navegar por esse processo e garantir que você receba o suporte necessário neste momento. 

@@ -1,0 +1,159 @@
+---
+// Modern inner-page hero: breadcrumb, eyebrow, H1, lead and actions on the left,
+// rounded photo on the right. Actions go in the default slot.
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  title: string;
+  eyebrow?: string;
+  lead?: string;
+  image?: string;
+  imageAlt?: string;
+  crumbs?: Crumb[];
+}
+const { title, eyebrow, lead, image, imageAlt = '', crumbs = [] } = Astro.props;
+---
+
+<section class="intro">
+  <div class:list={['container', 'intro__grid', { 'intro__grid--solo': !image }]}>
+    <div class="intro__copy">
+      {
+        crumbs.length > 0 && (
+          <nav class="crumbs" aria-label="Você está em">
+            <ol>
+              <li>
+                <a href="/">Início</a>
+              </li>
+              {crumbs.map((c) => (
+                <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      {
+        Astro.slots.has('default') && (
+          <div class="intro__actions">
+            <slot />
+          </div>
+        )
+      }
+    </div>
+    {
+      image && (
+        <div class="intro__media">
+          <img src={image} alt={imageAlt} fetchpriority="high" decoding="async" />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .intro {
+    padding-block: clamp(32px, 5vw, 64px);
+    background:
+      radial-gradient(55% 80% at 100% 0%, rgb(217 33 46 / 0.09), transparent 60%),
+      var(--surface);
+  }
+
+  .intro__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: clamp(28px, 5vw, 64px);
+  }
+
+  .intro__grid--solo {
+    grid-template-columns: minmax(0, 760px);
+  }
+
+  .intro__grid--solo .lead {
+    max-width: 640px;
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-right: 6px;
+    opacity: 0.5;
+  }
+
+  .crumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    color: var(--red);
+  }
+
+  .crumbs [aria-current] {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  h1 {
+    margin-bottom: 16px;
+    color: var(--ink);
+    font-size: clamp(2.1rem, 4.2vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+  }
+
+  .lead {
+    max-width: 540px;
+    margin: 0;
+  }
+
+  .intro__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .intro__media img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lift);
+  }
+
+  @media (max-width: 1024px) {
+    .intro__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .intro__media {
+      max-width: 640px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .intro__actions :global(.btn) {
+      flex: 1 1 100%;
+    }
+
+    .intro__media img {
+      border-radius: 20px;
+    }
+  }
+</style>

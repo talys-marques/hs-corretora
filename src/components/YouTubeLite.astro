@@ -1,0 +1,77 @@
+---
+// Lightweight YouTube embed: shows the thumbnail and only loads the player (no-cookie domain)
+// after a click, so the page does not pull YouTube's scripts on load.
+interface Props {
+  id: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+
+<div class="yt" data-yt={id} data-title={title}>
+  <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+  <button type="button" aria-label={`Assistir: ${title}`}>
+    <svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true">
+      <path fill="#d9212e" d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3Z"></path>
+      <path fill="#fff" d="m27 34 18-10-18-10v20Z"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-yt]').forEach((el) => {
+    el.querySelector('button')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${el.dataset.yt}?autoplay=1`;
+      iframe.title = el.dataset.title ?? '';
+      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      el.replaceChildren(iframe);
+    });
+  });
+</script>
+
+<style>
+  .yt {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--ink);
+    box-shadow: var(--shadow-lift);
+  }
+
+  img,
+  .yt :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+
+  button {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    border: 0;
+    background: rgb(23 20 43 / 0.25);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  button:hover {
+    background: rgb(23 20 43 / 0.1);
+  }
+
+  button svg {
+    transition: transform 0.2s var(--ease);
+  }
+
+  button:hover svg {
+    transform: scale(1.1);
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+// Infinite logo strip. The list is rendered twice so the CSS animation can loop seamlessly;
+// the copy is hidden from assistive tech. Motion stops for prefers-reduced-motion.
+interface Props {
+  logos: { name: string; logo: string }[];
+}
+const { logos } = Astro.props;
+---
+
+<div class="marquee">
+  <div class="track">
+    <ul aria-label="Seguradoras parceiras">
+      {
+        logos.map((l) => (
+          <li>
+            <img src={l.logo} alt={l.name} width="120" height="120" loading="lazy" decoding="async" />
+          </li>
+        ))
+      }
+    </ul>
+    <ul aria-hidden="true">
+      {
+        logos.map((l) => (
+          <li>
+            <img src={l.logo} alt="" width="120" height="120" loading="lazy" decoding="async" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    animation: scroll 70s linear infinite;
+  }
+
+  .marquee:hover .track {
+    animation-play-state: paused;
+  }
+
+  ul {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    padding: 0 16px 0 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    place-items: center;
+    width: 140px;
+    height: 88px;
+    border-radius: 16px;
+    background: var(--white);
+    box-shadow: var(--shadow-soft);
+  }
+
+  img {
+    width: 110px;
+    height: 72px;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.75;
+    transition: filter 0.3s, opacity 0.3s;
+  }
+
+  li:hover img {
+    filter: none;
+    opacity: 1;
+  }
+
+  @keyframes scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+      mask-image: none;
+    }
+
+    .track {
+      animation: none;
+    }
+
+    ul[aria-hidden] {
+      display: none;
+    }
+  }
+</style>

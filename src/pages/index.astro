@@ -1,94 +1,122 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
-import ImageCard from '../components/ImageCard.astro';
-import LogoCarousel from '../components/LogoCarousel.astro';
-import { site } from '../config/site';
-import grupo from '../data/empresas-grupo.json';
+import Icon from '../components/Icon.astro';
+import PostCard from '../components/PostCard.astro';
+import ProductFinder from '../components/home/ProductFinder.astro';
+import PartnerMarquee from '../components/home/PartnerMarquee.astro';
+import FinalCta from '../components/FinalCta.astro';
+import { site, whatsappLink } from '../config/site';
+import { getPosts } from '../lib/blog';
+import GroupStats from '../components/GroupStats.astro';
+import GroupBrands from '../components/GroupBrands.astro';
 import parceiras from '../data/seguradoras-parceiras.json';
 import iconPersonalizado from '../icons/personalizado.svg?raw';
 import iconAtendimento from '../icons/atendimento.svg?raw';
 import iconVariedade from '../icons/variedade.svg?raw';
 
+const produtos = await getCollection('produtos', ({ data }) => data.listed);
+const countPf = produtos.filter((p) => p.data.audience.includes('pf')).length;
+const countPj = produtos.filter((p) => p.data.audience.includes('pj')).length;
+const partnersCount = Math.floor(parceiras.length / 10) * 10;
+const posts = (await getPosts()).slice(0, 3);
+const sinistro = site.phones[2];
+
 const features = [
-  { icon: iconPersonalizado, title: 'Avaliação personalizada' },
-  { icon: iconAtendimento, title: 'Atendimento diferenciado' },
-  { icon: iconVariedade, title: 'Variedade de opções' },
+  {
+    icon: iconPersonalizado,
+    title: 'Avaliação personalizada',
+    text: 'Entendemos sua rotina e seu patrimônio para indicar só as coberturas que fazem sentido para você.',
+  },
+  {
+    icon: iconAtendimento,
+    title: 'Atendimento diferenciado',
+    text: 'Atendimento 100% humanizado, do primeiro orçamento até o momento do sinistro.',
+  },
+  {
+    icon: iconVariedade,
+    title: 'Variedade de opções',
+    text: `Mais de ${partnersCount} seguradoras parceiras para comparar preço, cobertura e assistência.`,
+  },
+];
+
+const steps = [
+  { title: 'Conte o que você precisa', text: 'Fale com a gente pelo WhatsApp, por telefone ou pela cotação online.' },
+  { title: 'Comparamos para você', text: 'Nossos especialistas cotam nas seguradoras parceiras e ajustam as coberturas ao seu perfil.' },
+  { title: 'Contrate com tranquilidade', text: 'Você escolhe a melhor proposta e conta com a gente também na hora do sinistro.' },
 ];
 ---
 
 <Base title={site.name}>
-  <PageHero
-    size="lg"
-    title={site.name}
-    subtitle="As melhores soluções em seguros para você, seu patrimônio, sua família ou sua empresa."
-    image="/uploads/2021/12/GettyImages-1210529171_home.webp"
-  >
-    <a class="btn btn--primary" href="/sobre-nos/">Saiba mais</a>
-  </PageHero>
-
-  <section class="container features" aria-label="Diferenciais">
-    {
-      features.map((f) => (
-        <div class="feature">
-          <span class="feature__icon" set:html={f.icon} />
-          <h2>{f.title}</h2>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="pill"><Icon name="shield" size={16} /> Uma empresa do Grupo Herval, desde 1959</p>
+        <h1>Proteção <span>sob medida</span> para o que mais importa.</h1>
+        <p class="lead">As melhores soluções em seguros para você, seu patrimônio, sua família ou sua empresa, com atendimento próximo e transparente.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg" href={site.quote.primaryUrl} target="_blank" rel="noopener">
+            Fazer cotação <Icon name="arrow-right" size={18} class="arrow" />
+          </a>
+          <a class="btn btn--dark-outline btn--lg" href={whatsappLink()} target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={18} /> Falar no WhatsApp
+          </a>
         </div>
-      ))
-    }
-  </section>
+        <ul class="hero__trust">
+          <li><Icon name="check" size={18} /> {partnersCount}+ seguradoras parceiras</li>
+          <li><Icon name="check" size={18} /> Atendimento humanizado</li>
+          <li><Icon name="check" size={18} /> Sinistro 24h</li>
+        </ul>
+      </div>
 
-  <section class="services" aria-labelledby="servicos">
-    <div class="container section-head">
-      <h2 id="servicos">Nossos serviços</h2>
-      <p>Temos o seguro que atende suas necessidades.</p>
-    </div>
-    <div class="banners">
-      <ImageCard
-        tall
-        title="Para você"
-        text="tranquilidade para você, sua família ou seu patrimônio"
-        href="/para-voce/"
-        image="/uploads/2021/12/GettyImages-1216968915_pravoce.webp"
-      />
-      <ImageCard
-        tall
-        title="Para sua empresa"
-        text="proteção e segurança para o seu negócio"
-        href="/para-empresas/"
-        image="/uploads/2021/12/GettyImages-1149078028_paraempresas.webp"
-      />
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container about">
-      <video class="about__media" src="/uploads/2025/04/C0012_1-2.mp4" controls muted playsinline preload="metadata" aria-label="Equipe da Herval Corretora"></video>
-      <div>
-        <h2 class="title-upper">Sobre nós</h2>
-        <p>
-          A <strong>Herval Corretora</strong> oferece <strong>seguros personalizados</strong> para pessoas e empresas, garantindo proteção com transparência e
-          proximidade. Com a credibilidade do <strong>Grupo Herval</strong>, presente no mercado desde 1959, cuidamos do que mais importa para você.
-        </p>
-        <a class="btn btn--primary" href="/sobre-nos/">Saiba mais</a>
+      <div class="hero__media">
+        <img src="/uploads/2021/12/GettyImages-1210529171_home.webp" alt="Família sorrindo no sofá de casa" width="1732" height="1155" fetchpriority="high" />
+        <div class="float float--partners" aria-hidden="true">
+          <span class="float__icon float__icon--navy"><Icon name="shield" size={22} /></span>
+          <div>
+            <strong>{partnersCount}+ seguradoras</strong>
+            <span>comparadas para você</span>
+          </div>
+        </div>
+        <a class="float float--claim" href={`tel:${sinistro.tel}`}>
+          <span class="float__icon"><Icon name="clock" size={22} /></span>
+          <span>
+            <strong>Sinistro e assistência 24h</strong>
+            <span>{sinistro.number}</span>
+          </span>
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="section section--gray" aria-labelledby="grupo">
+  <!-- Product finder -->
+  <section class="container finder-section" aria-labelledby="finder-title">
+    <ProductFinder>
+      <div class="finder-head">
+        <h2 id="finder-title" class="heading-xl">Qual seguro você procura?</h2>
+        <p>Escolha um dos mais procurados ou veja a lista completa.</p>
+      </div>
+    </ProductFinder>
+  </section>
+
+  <!-- Why us -->
+  <section class="section" aria-labelledby="why-title">
     <div class="container">
-      <h2 id="grupo" class="section-head title-upper">Empresas do grupo</h2>
-      <ul class="group-logos">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow">Por que a Herval Corretora</p>
+          <h2 id="why-title" class="heading-xl">Seguro bom é aquele que funciona quando você precisa.</h2>
+        </div>
+        <p class="lead">Somos corretores: trabalhamos para você, não para a seguradora. Comparamos opções e acompanhamos cada etapa, inclusive o sinistro.</p>
+      </div>
+      <ul class="features">
         {
-          grupo.map((g) => (
-            <li>
-              {g.url ? (
-                <a href={g.url} target="_blank" rel="noopener">
-                  <img src={g.logo} alt={g.name} loading="lazy" width="150" height="150" />
-                </a>
-              ) : (
-                <img src={g.logo} alt={g.name} loading="lazy" width="150" height="150" />
-              )}
+          features.map((f) => (
+            <li class="feature">
+              <span class="feature__icon" set:html={f.icon} />
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
             </li>
           ))
         }
@@ -96,140 +124,641 @@ const features = [
     </div>
   </section>
 
-  <section class="section" aria-labelledby="parceiras">
+  <!-- Audiences -->
+  <section class="container audiences" aria-label="Seguros por tipo de cliente">
+    <a class="audience" href="/para-voce/">
+      <img src="/uploads/2021/12/GettyImages-1216968915_pravoce.webp" alt="" width="830" height="565" loading="lazy" />
+      <div class="audience__body">
+        <span class="audience__count">{countPf} seguros</span>
+        <h2>Para você</h2>
+        <p>Tranquilidade para você, sua família e seu patrimônio.</p>
+        <span class="audience__link">Conheça os seguros <Icon name="arrow-right" size={18} class="arrow" /></span>
+      </div>
+    </a>
+    <a class="audience" href="/para-empresas/">
+      <img src="/uploads/2021/12/GettyImages-1149078028_paraempresas.webp" alt="" width="830" height="565" loading="lazy" />
+      <div class="audience__body">
+        <span class="audience__count">{countPj} seguros</span>
+        <h2>Para sua empresa</h2>
+        <p>Proteção e segurança para o seu negócio seguir em frente.</p>
+        <span class="audience__link">Conheça os seguros <Icon name="arrow-right" size={18} class="arrow" /></span>
+      </div>
+    </a>
+  </section>
+
+  <!-- How it works -->
+  <section class="section how" aria-labelledby="how-title">
     <div class="container">
-      <h2 id="parceiras" class="section-head title-upper">Seguradoras parceiras</h2>
-      <LogoCarousel logos={parceiras} label="Logos das seguradoras parceiras" />
+      <div class="how__head">
+        <p class="eyebrow">Como funciona</p>
+        <h2 id="how-title" class="heading-xl">Cotar seu seguro é simples</h2>
+      </div>
+      <ol class="steps">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="steps__n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="how__cta">
+        <a class="btn btn--primary btn--lg" href={site.quote.primaryUrl} target="_blank" rel="noopener">
+          Começar minha cotação <Icon name="arrow-right" size={18} class="arrow" />
+        </a>
+      </div>
     </div>
   </section>
+
+  <!-- Group -->
+  <section class="section group" aria-labelledby="group-title">
+    <div class="container">
+      <div class="group__grid">
+        <div class="group__media">
+          <video src="/uploads/2025/04/C0012_1-2.mp4" controls muted playsinline preload="metadata" aria-label="Equipe da Herval Corretora"></video>
+        </div>
+        <div>
+          <p class="eyebrow">Sobre nós</p>
+          <h2 id="group-title" class="heading-xl">A solidez do Grupo Herval cuidando do seu seguro</h2>
+          <p class="lead">
+            A Herval Corretora oferece seguros personalizados para pessoas e empresas, garantindo proteção com transparência e proximidade. Com a credibilidade do Grupo
+            Herval, presente no mercado desde 1959, cuidamos do que mais importa para você.
+          </p>
+          <a class="text-link" href="/sobre-nos/">Conheça nossa história <Icon name="arrow-right" size={16} /></a>
+        </div>
+      </div>
+
+      <div class="group__stats">
+        <GroupStats />
+      </div>
+      <div class="group__brands">
+        <GroupBrands />
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section class="section partners" aria-labelledby="partners-title">
+    <div class="container section-head">
+      <p class="eyebrow">Seguradoras parceiras</p>
+      <h2 id="partners-title" class="heading-xl">Trabalhamos com as principais seguradoras do país</h2>
+    </div>
+    <PartnerMarquee logos={parceiras} />
+  </section>
+
+  <!-- Blog -->
+  {
+    posts.length > 0 && (
+      <section class="section blog" aria-labelledby="blog-title">
+        <div class="container">
+          <div class="blog__head">
+            <div>
+              <p class="eyebrow">Blog</p>
+              <h2 id="blog-title" class="heading-xl">
+                Conteúdo para você decidir melhor
+              </h2>
+            </div>
+            <a class="text-link" href="/blog/">
+              Ver todos os posts <Icon name="arrow-right" size={16} />
+            </a>
+          </div>
+          <div class="blog__grid">
+            {posts.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <FinalCta />
 </Base>
 
 <style>
-  .features {
+  /* ---------- Hero ---------- */
+  .hero {
     position: relative;
-    z-index: 2;
+    overflow: hidden;
+    padding: clamp(40px, 6vw, 80px) 0 clamp(96px, 10vw, 140px);
+    background:
+      radial-gradient(60% 70% at 100% 0%, rgb(217 33 46 / 0.1), transparent 60%),
+      radial-gradient(50% 60% at 0% 100%, rgb(30 26 52 / 0.06), transparent 60%),
+      var(--surface);
+  }
+
+  .hero__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 270px));
-    justify-content: center;
-    gap: 32px;
-    margin-top: -90px;
-  }
-
-  .feature {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1.05fr 1fr;
     align-items: center;
-    gap: 16px;
-    padding: 28px 20px 36px;
-    background: var(--white);
-    border-radius: 4px;
-    box-shadow: var(--shadow);
-    text-align: center;
+    gap: clamp(32px, 5vw, 72px);
   }
 
-  .feature__icon {
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 20px;
+    padding: 6px 14px 6px 10px;
+    border: 1px solid rgb(217 33 46 / 0.2);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .pill :global(svg) {
     color: var(--red);
   }
 
-  .feature__icon :global(svg) {
-    width: 38px;
-    height: 38px;
+  h1 {
+    margin-bottom: 20px;
+    color: var(--ink);
+    font-size: clamp(2.3rem, 4.4vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
   }
 
-  .feature h2 {
-    margin: 0;
-    font-size: 1.35rem;
-    font-weight: 500;
+  h1 span {
+    color: var(--red);
   }
 
-  .services {
-    padding-top: clamp(48px, 6vw, 72px);
+  .hero .lead {
+    max-width: 520px;
+    margin-bottom: 32px;
   }
 
-  .banners {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
-  .about {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink);
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  .hero__trust li {
+    display: inline-flex;
     align-items: center;
-    gap: 32px;
-    max-width: 980px;
+    gap: 6px;
   }
 
-  .about__media {
+  .hero__trust :global(svg) {
+    color: #1f9d55;
+  }
+
+  .hero__media {
+    position: relative;
+  }
+
+  .hero__media > img {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 5 / 4;
     object-fit: cover;
-    background: #000;
+    object-position: 35% center;
+    border-radius: 28px;
+    box-shadow: var(--shadow-lift);
   }
 
-  .about h2 {
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
+  .float {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: rgb(255 255 255 / 0.94);
+    box-shadow: var(--shadow-lift);
+    backdrop-filter: blur(8px);
+    color: var(--ink);
+    font-size: 0.85rem;
+    line-height: 1.35;
+    text-decoration: none;
   }
 
-  .group-logos {
+  .float strong {
+    display: block;
+    font-size: 0.95rem;
+  }
+
+  .float span span,
+  .float div span {
+    color: var(--text-muted);
+  }
+
+  .float--partners {
+    top: 24px;
+    left: -28px;
+  }
+
+  .float--claim {
+    right: -20px;
+    bottom: 28px;
+    transition: transform 0.2s var(--ease);
+  }
+
+  .float--claim:hover {
+    transform: translateY(-2px);
+  }
+
+  .float__icon {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 24px 16px;
+    flex: none;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--red);
+    color: var(--white);
+  }
+
+  .float__icon--navy {
+    background: var(--navy);
+  }
+
+  /* ---------- Finder ---------- */
+  .finder-section {
+    position: relative;
+    z-index: 2;
+    margin-top: clamp(-96px, -8vw, -64px);
+  }
+
+  .finder-head {
+    margin-bottom: 20px;
+  }
+
+  .finder-head h2 {
+    margin-bottom: 4px;
+    font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  }
+
+  .finder-head p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  /* ---------- Why us ---------- */
+  .split-head {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: end;
+    gap: 24px 64px;
+    margin-bottom: 40px;
+  }
+
+  .split-head .heading-xl {
+    margin: 0;
+  }
+
+  .split-head .lead {
+    margin: 0;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .group-logos li {
+  .feature {
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease);
+  }
+
+  .feature:hover {
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-3px);
+  }
+
+  .feature__icon {
     display: grid;
     place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+    border-radius: 16px;
+    background: var(--red-soft);
+    color: var(--red);
   }
 
-  .group-logos img {
-    width: 130px;
-    transition: transform 0.2s;
+  .feature__icon :global(svg) {
+    width: 28px;
+    height: 28px;
   }
 
-  .group-logos a:hover img {
-    transform: scale(1.06);
+  .feature h3 {
+    margin-bottom: 8px;
+    color: var(--ink);
+    font-size: 1.2rem;
+    font-weight: 700;
   }
 
+  .feature p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  /* ---------- Audiences ---------- */
+  .audiences {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .audience {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 420px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    color: var(--white);
+    text-decoration: none;
+    isolation: isolate;
+  }
+
+  .audience img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .audience::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgb(23 20 43 / 0) 30%, rgb(23 20 43 / 0.88) 100%);
+  }
+
+  .audience:hover img {
+    transform: scale(1.05);
+  }
+
+  .audience__body {
+    padding: clamp(24px, 3vw, 36px);
+  }
+
+  .audience__count {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.18);
+    backdrop-filter: blur(6px);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .audience h2 {
+    margin-bottom: 6px;
+    color: var(--white);
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+
+  .audience p {
+    margin-bottom: 16px;
+    opacity: 0.88;
+  }
+
+  .audience__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+  }
+
+  .audience:hover :global(.arrow) {
+    transform: translateX(3px);
+  }
+
+  /* ---------- How it works ---------- */
+  .how {
+    margin-top: clamp(48px, 7vw, 88px);
+    background:
+      radial-gradient(50% 80% at 100% 0%, rgb(217 33 46 / 0.25), transparent 60%),
+      var(--navy);
+    color: var(--white);
+  }
+
+  .how__head {
+    margin-bottom: 40px;
+  }
+
+  .how .heading-xl {
+    color: var(--white);
+  }
+
+  .how .eyebrow {
+    color: #ff8a92;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  .steps li {
+    padding: 28px;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: 20px;
+    background: rgb(255 255 255 / 0.04);
+  }
+
+  .steps__n {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: #ff8a92;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .steps h3 {
+    margin-bottom: 8px;
+    color: var(--white);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .steps p {
+    margin: 0;
+    color: rgb(255 255 255 / 0.72);
+  }
+
+  .how__cta {
+    margin-top: 36px;
+  }
+
+  /* ---------- Group ---------- */
+  .group {
+    background: var(--surface);
+  }
+
+  .group__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(32px, 5vw, 64px);
+  }
+
+  .group__media video {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    background: var(--ink);
+    box-shadow: var(--shadow-lift);
+  }
+
+
+  .group__stats {
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+
+  .group__brands {
+    margin-top: 40px;
+  }
+
+  /* ---------- Partners ---------- */
+  .partners .section-head {
+    margin-bottom: 32px;
+  }
+
+  .partners .heading-xl {
+    margin: 0;
+  }
+
+  .partners :global(.marquee li) {
+    box-shadow: none;
+    border: 1px solid var(--border);
+  }
+
+  /* ---------- Blog ---------- */
+  .blog {
+    background: var(--surface);
+  }
+
+  .blog__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .blog__head .heading-xl {
+    margin: 0;
+  }
+
+  .blog__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* ---------- Responsive ---------- */
   @media (max-width: 1024px) {
-    .features {
-      gap: 16px;
+    .hero__grid,
+    .group__grid,
+    .split-head {
+      grid-template-columns: 1fr;
     }
 
-    .group-logos {
-      grid-template-columns: repeat(4, 1fr);
+    .hero__media {
+      max-width: 640px;
+    }
+
+    .float--partners {
+      left: 16px;
+    }
+
+    .float--claim {
+      right: 16px;
+    }
+
+    .features,
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .blog__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .blog__grid > :global(:nth-child(3)) {
+      display: none;
     }
   }
 
   @media (max-width: 767px) {
-    .features {
+    .hero__actions .btn {
+      flex: 1 1 100%;
+    }
+
+    .hero__media > img {
+      aspect-ratio: 4 / 3;
+      border-radius: 20px;
+    }
+
+    .float {
+      padding: 10px 12px;
+      font-size: 0.78rem;
+    }
+
+    .float--partners {
+      top: 12px;
+      left: 12px;
+    }
+
+    .float--claim {
+      right: 12px;
+      bottom: 12px;
+      left: 12px;
+    }
+
+    .audiences,
+    .blog__grid {
       grid-template-columns: 1fr;
-      margin-top: -60px;
     }
 
-    .feature {
-      flex-direction: row;
-      padding: 18px 20px;
-      text-align: left;
+    .audience {
+      min-height: 340px;
     }
 
-    .feature h2 {
-      font-size: 1.1rem;
-    }
-
-    .banners,
-    .about {
-      grid-template-columns: 1fr;
-    }
-
-    .group-logos {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .group-logos img {
-      width: 96px;
+    .blog__grid > :global(:nth-child(3)) {
+      display: flex;
     }
   }
 </style>

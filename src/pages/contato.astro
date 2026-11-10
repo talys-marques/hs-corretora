@@ -1,70 +1,82 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
+import PageIntro from '../components/PageIntro.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Icon from '../components/Icon.astro';
 import { site, whatsappLink } from '../config/site';
+
+const icons = ['phone', 'phone', 'clock'] as const;
 ---
 
 <Base title="Contato" description="Fale com a Herval Corretora de Seguros: telefones, WhatsApp, e-mail e formulário de contato. Dúvidas, reclamações ou sugestões.">
-  <PageHero title="Contato" image="/uploads/2021/12/banner-contato.webp" />
+  <PageIntro
+    crumbs={[{ label: 'Contato' }]}
+    eyebrow="Fale com a gente"
+    title="Dúvidas, reclamações ou sugestões?"
+    lead="Escolha o canal mais prático para você. Respondemos o mais rápido possível."
+    image="/uploads/2021/12/banner-contato.webp"
+  >
+    <a class="btn btn--primary btn--lg" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> Falar no WhatsApp</a>
+    <a class="btn btn--dark-outline btn--lg" href="#formulario">Enviar mensagem</a>
+  </PageIntro>
 
   <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <h2>Dúvidas, reclamações ou sugestões?</h2>
-        <p>Entre em contato com a gente, responderemos o mais rápido possível.</p>
+    <div class="container contact-grid">
+      <div class="channels-col">
+        <h2 class="heading-xl">Canais de atendimento</h2>
+        <ul class="channels">
+          {
+            site.phones.map((p, i) => (
+              <li>
+                <a class="channel" href={`tel:${p.tel}`}>
+                  <span class:list={['channel__icon', { 'channel__icon--alert': i === 2 }]}>
+                    <Icon name={icons[i]} size={22} />
+                  </span>
+                  <span class="channel__body">
+                    <span class="channel__label">{p.label}</span>
+                    <strong>{p.number}</strong>
+                    <span class="channel__hours">{p.hours}</span>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a class="channel" href={whatsappLink()} target="_blank" rel="noopener">
+              <span class="channel__icon channel__icon--wa"><Icon name="whatsapp" size={22} /></span>
+              <span class="channel__body">
+                <span class="channel__label">WhatsApp</span>
+                <strong>Cotações e atendimento</strong>
+                <span class="channel__hours">{site.phones[1].hours}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="channel" href={`mailto:${site.email}`}>
+              <span class="channel__icon channel__icon--navy"><Icon name="mail" size={22} /></span>
+              <span class="channel__body">
+                <span class="channel__label">E-mail</span>
+                <strong>{site.email}</strong>
+              </span>
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <div class="contact-grid">
-        <div class="card">
-          <ContactForm />
-        </div>
+      <div class="form-card" id="formulario">
+        <h2>Envie uma mensagem</h2>
+        <p>Preencha o formulário e nossa equipe retorna o contato.</p>
+        <ContactForm />
+      </div>
+    </div>
 
-        <div class="side">
-          <ul class="channels">
-            {
-              site.phones.map((p) => (
-                <li>
-                  <span class="channels__icon">
-                    <Icon name="phone" />
-                  </span>
-                  <div>
-                    <a href={`tel:${p.tel}`}>{p.number}</a>
-                    <strong>{p.label}</strong>
-                    <span>{p.hours}</span>
-                  </div>
-                </li>
-              ))
-            }
-            <li>
-              <span class="channels__icon">
-                <Icon name="whatsapp" />
-              </span>
-              <div>
-                <a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a>
-                <span>Cotações pelo WhatsApp</span>
-              </div>
-            </li>
-            <li>
-              <span class="channels__icon">
-                <Icon name="mail" />
-              </span>
-              <div>
-                <a href={`mailto:${site.email}`}>{site.email}</a>
-                <span>E-mail</span>
-              </div>
-            </li>
-          </ul>
-
-          <div class="map">
-            <iframe
-              src={`https://maps.google.com/maps?q=${encodeURIComponent(site.address.mapQuery)}&t=m&z=13&output=embed&iwloc=near`}
-              title="Mapa: localização do Grupo Herval"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-        </div>
+    <div class="container">
+      <div class="map">
+        <iframe
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(site.address.mapQuery)}&t=m&z=13&output=embed&iwloc=near`}
+          title="Mapa: localização do Grupo Herval em Dois Irmãos (RS)"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </section>
@@ -73,71 +85,119 @@ import { site, whatsappLink } from '../config/site';
 <style>
   .contact-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr 1.25fr;
     align-items: start;
+    gap: clamp(32px, 5vw, 56px);
   }
 
-  .card {
-    padding: clamp(20px, 3vw, 36px);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-  }
-
-  .side {
-    display: grid;
-    gap: 24px;
+  .channels-col .heading-xl {
+    margin-bottom: 20px;
+    font-size: clamp(1.4rem, 2.4vw, 1.75rem);
   }
 
   .channels {
     display: grid;
-    gap: 18px;
+    gap: 12px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .channels li {
+  .channel {
     display: flex;
-    gap: 14px;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.25s, transform 0.25s var(--ease);
   }
 
-  .channels__icon {
+  .channel:hover {
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-2px);
+  }
+
+  .channel__icon {
     display: grid;
     flex: none;
     place-items: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--red-soft);
+    color: var(--red);
+  }
+
+  .channel__icon--alert {
     background: var(--red);
     color: var(--white);
   }
 
-  .channels div {
+  .channel__icon--wa {
+    background: rgb(37 211 102 / 0.14);
+    color: #128c4b;
+  }
+
+  .channel__icon--navy {
+    background: var(--surface-2);
+    color: var(--navy);
+  }
+
+  .channel__body {
     display: grid;
-    font-size: 0.9rem;
-    line-height: 1.4;
+    min-width: 0;
+    line-height: 1.35;
   }
 
-  .channels a {
-    color: var(--text);
+  .channel__label {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .channel strong {
     font-size: 1.05rem;
-    font-weight: 700;
-    text-decoration: none;
+    overflow-wrap: anywhere;
   }
 
-  .channels a:hover {
-    color: var(--red);
+  .channel__hours {
+    color: var(--text-muted);
+    font-size: 0.85rem;
   }
 
-  .channels span {
+  .form-card {
+    padding: clamp(24px, 4vw, 40px);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-lift);
+    scroll-margin-top: 100px;
+  }
+
+  .form-card h2 {
+    margin-bottom: 6px;
+    color: var(--ink);
+    font-size: 1.5rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+
+  .form-card > p {
+    margin-bottom: 24px;
     color: var(--text-muted);
   }
 
   .map {
-    aspect-ratio: 4 / 3;
-    border-radius: var(--radius);
+    height: 380px;
+    margin-top: clamp(40px, 5vw, 64px);
     overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
   }
 
   .map iframe {
@@ -149,6 +209,12 @@ import { site, whatsappLink } from '../config/site';
   @media (max-width: 1024px) {
     .contact-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .map {
+      height: 300px;
     }
   }
 </style>

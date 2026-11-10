@@ -1,221 +1,448 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import FinalCta from '../components/FinalCta.astro';
 import Icon from '../components/Icon.astro';
+import { site, whatsappLink } from '../config/site';
 import ajuda from '../data/ajuda.json';
 
+const sinistro = site.phones[2];
 const digits = (s: string) => s.replace(/\D/g, '');
 const waHref = (s: string) => `https://wa.me/55${digits(s)}`;
 const telHref = (s: string) => (digits(s).startsWith('0') ? `tel:${digits(s)}` : `tel:+55${digits(s)}`);
+const host = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 ---
 
 <Base title="Ajuda" description="Em caso de sinistro, contatos das seguradoras parceiras (WhatsApp e 0800) e links úteis: FIPE, Delegacia Online, Detran RS e SUSEP.">
-  <PageHero title="Ajuda" image="/uploads/2021/12/banner-ajuda.webp" />
+  <PageIntro
+    crumbs={[{ label: 'Ajuda' }]}
+    eyebrow="Central de ajuda"
+    title="Estamos aqui para ajudar"
+    lead="Sinistro, contatos das seguradoras e links úteis em um só lugar. Se preferir, fale direto com a nossa equipe."
+    image="/uploads/2021/12/banner-ajuda.webp"
+  >
+    <a class="btn btn--primary btn--lg" href={`tel:${sinistro.tel}`}><Icon name="phone" size={18} /> Sinistro 24h: {sinistro.number}</a>
+    <a class="btn btn--dark-outline btn--lg" href="#seguradoras">Contatos das seguradoras</a>
+  </PageIntro>
 
-  <section class="section">
-    <div class="container narrow">
-      <div class="section-head">
-        <h2>Dúvidas, reclamações ou sugestões?</h2>
-        <p>Entre em contato com a gente, responderemos o mais rápido possível.</p>
-      </div>
-
-      <div class="accordion">
-        <details open>
-          <summary><Icon name="chevron-down" /> Em caso de sinistro</summary>
-          <div class="panel">
-            <p>Problemas acontecem, estamos aqui para ajudar.</p>
-            <p>
-              <a href={ajuda.sinistroPdf} target="_blank" rel="noopener">Clique aqui</a> e conheça todo o procedimento em caso de sinistro de veículos e demais produtos e serviços.
-            </p>
-          </div>
-        </details>
-
-        <details>
-          <summary><Icon name="chevron-down" /> Seguradoras</summary>
-          <div class="panel">
-            <ul class="insurers">
-              {
-                ajuda.seguradoras.map((s) => (
-                  <li>
-                    {s.logo && <img src={s.logo} alt="" width="120" height="60" loading="lazy" />}
-                    <div>
-                      <h3>{s.name}</h3>
-                      {s.whatsapp && (
-                        <p>
-                          WhatsApp:{' '}
-                          <a href={waHref(s.whatsapp)} target="_blank" rel="noopener">
-                            {s.whatsapp}
-                          </a>
-                        </p>
-                      )}
-                      {s.phone && (
-                        <p>
-                          Ligação: <a href={telHref(s.phone)}>{s.phone}</a>
-                        </p>
-                      )}
-                      {s.site && (
-                        <p>
-                          <a href={s.site} target="_blank" rel="noopener">
-                            Visite o site <span class="sr-only">da {s.name}</span>
-                          </a>
-                        </p>
-                      )}
-                    </div>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        </details>
-
-        <details>
-          <summary><Icon name="chevron-down" /> Links úteis</summary>
-          <div class="panel">
-            <ul class="links">
-              {
-                ajuda.links.map((l) => (
-                  <li>
-                    <strong>{l.label}</strong>
-                    <a href={l.url} target="_blank" rel="noopener">
-                      {l.url}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        </details>
+  <section class="section" aria-labelledby="sinistro-title">
+    <div class="container">
+      <div class="claim">
+        <div class="claim__copy">
+          <p class="eyebrow">Em caso de sinistro</p>
+          <h2 id="sinistro-title">Problemas acontecem. A gente acompanha você.</h2>
+          <p>Conheça todo o procedimento em caso de sinistro de veículos e demais produtos e serviços, ou fale com a nossa equipe a qualquer hora.</p>
+        </div>
+        <ul class="claim__actions">
+          <li>
+            <a href={`tel:${sinistro.tel}`}>
+              <span class="claim__icon"><Icon name="clock" size={22} /></span>
+              <span><strong>Ligar 24h</strong><small>{sinistro.number} · {sinistro.hours}</small></span>
+            </a>
+          </li>
+          <li>
+            <a href={whatsappLink('Olá, preciso de ajuda com um sinistro')} target="_blank" rel="noopener">
+              <span class="claim__icon"><Icon name="whatsapp" size={22} /></span>
+              <span><strong>WhatsApp</strong><small>Fale com a nossa equipe</small></span>
+            </a>
+          </li>
+          {
+            ajuda.sinistroPdf && (
+              <li>
+                <a href={ajuda.sinistroPdf} target="_blank" rel="noopener">
+                  <span class="claim__icon">
+                    <Icon name="shield" size={22} />
+                  </span>
+                  <span>
+                    <strong>Procedimento de sinistro</strong>
+                    <small>Guia em PDF</small>
+                  </span>
+                </a>
+              </li>
+            )
+          }
+        </ul>
       </div>
     </div>
   </section>
+
+  <section class="section insurers-section" id="seguradoras" aria-labelledby="insurers-title" data-insurers>
+    <div class="container">
+      <div class="insurers__head">
+        <div>
+          <p class="eyebrow">Seguradoras</p>
+          <h2 id="insurers-title" class="heading-xl">Contatos das seguradoras parceiras</h2>
+        </div>
+        <label class="search">
+          <span class="sr-only">Buscar seguradora</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M10 2a8 8 0 1 0 4.9 14.32l5.39 5.39 1.42-1.42-5.39-5.39A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"></path></svg>
+          <input type="search" placeholder="Buscar seguradora…" autocomplete="off" data-insurer-search />
+        </label>
+      </div>
+
+      <ul class="insurers">
+        {
+          ajuda.seguradoras.map((s) => (
+            <li class="insurer" data-name={s.name.toLowerCase()}>
+              <div class="insurer__top">
+                <span class="insurer__logo">{s.logo ? <img src={s.logo} alt="" width="120" height="60" loading="lazy" /> : s.name.charAt(0)}</span>
+                <h3>{s.name}</h3>
+              </div>
+              <div class="insurer__links">
+                {s.phone && (
+                  <a href={telHref(s.phone)}>
+                    <Icon name="phone" size={16} /> {s.phone}
+                  </a>
+                )}
+                {s.whatsapp && (
+                  <a href={waHref(s.whatsapp)} target="_blank" rel="noopener">
+                    <Icon name="whatsapp" size={16} /> {s.whatsapp}
+                  </a>
+                )}
+                {s.site && (
+                  <a href={s.site} target="_blank" rel="noopener">
+                    <Icon name="external" size={16} /> Visite o site <span class="sr-only">da {s.name}</span>
+                  </a>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="insurers__empty" data-insurer-empty hidden>Nenhuma seguradora encontrada com esse nome.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="links-title">
+    <div class="container">
+      <p class="eyebrow">Links úteis</p>
+      <h2 id="links-title" class="heading-xl">Serviços que podem ajudar</h2>
+      <ul class="links">
+        {
+          ajuda.links.map((l) => (
+            <li>
+              <a href={l.url} target="_blank" rel="noopener">
+                <strong>{l.label}</strong>
+                <span>{host(l.url)}</span>
+                <Icon name="external" size={18} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <FinalCta title="Ainda precisa de ajuda?" text="Nossa equipe responde pelo WhatsApp e por telefone." />
 </Base>
 
+<script>
+  const normalize = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const root = document.querySelector<HTMLElement>('[data-insurers]');
+  const input = root?.querySelector<HTMLInputElement>('[data-insurer-search]');
+  const items = [...(root?.querySelectorAll<HTMLElement>('.insurer') ?? [])];
+  const empty = root?.querySelector<HTMLElement>('[data-insurer-empty]');
+  input?.addEventListener('input', () => {
+    const q = normalize(input.value.trim());
+    let visible = 0;
+    items.forEach((el) => {
+      const match = !q || normalize(el.dataset.name ?? '').includes(q);
+      el.hidden = !match;
+      if (match) visible++;
+    });
+    if (empty) empty.hidden = visible > 0;
+  });
+</script>
+
 <style>
-  .narrow {
-    max-width: 1000px;
-  }
-
-  .accordion {
-    border-radius: 4px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  details + details {
-    border-top: 1px solid var(--border);
-  }
-
-  summary {
-    display: flex;
+  /* ---------- Claim ---------- */
+  .claim {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
     align-items: center;
+    gap: 32px 56px;
+    padding: clamp(28px, 4vw, 48px);
+    border-radius: 28px;
+    background:
+      radial-gradient(60% 100% at 100% 0%, rgb(217 33 46 / 0.3), transparent 60%),
+      var(--navy);
+    color: var(--white);
+  }
+
+  .claim .eyebrow {
+    color: #ff8a92;
+  }
+
+  .claim h2 {
+    margin-bottom: 12px;
+    color: var(--white);
+    font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+
+  .claim__copy p:last-child {
+    margin: 0;
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  .claim__actions {
+    display: grid;
     gap: 12px;
-    padding: 24px;
-    font-weight: 500;
-    text-transform: uppercase;
-    cursor: pointer;
+    margin: 0;
+    padding: 0;
     list-style: none;
   }
 
-  summary::-webkit-details-marker {
-    display: none;
+  .claim__actions a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: 16px;
+    background: rgb(255 255 255 / 0.05);
+    color: var(--white);
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s;
   }
 
-  summary :global(svg) {
-    color: var(--red);
-    transition: transform 0.2s;
+  .claim__actions a:hover {
+    border-color: rgb(255 255 255 / 0.3);
+    background: rgb(255 255 255 / 0.1);
   }
 
-  details[open] summary {
-    color: var(--red);
+  .claim__actions span:last-child {
+    display: grid;
   }
 
-  details[open] summary :global(svg) {
-    transform: rotate(180deg);
+  .claim__actions small {
+    color: rgb(255 255 255 / 0.65);
+    font-size: 0.85rem;
   }
 
-  .panel {
-    padding: 4px 24px 24px;
-    background: #fafafa;
+  .claim__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--red);
   }
 
-  .panel > p:first-child {
-    padding-top: 16px;
+  /* ---------- Insurers ---------- */
+  .insurers-section {
+    padding-top: 0;
+    scroll-margin-top: 90px;
+  }
+
+  .insurers__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .insurers__head .heading-xl {
+    margin: 0;
+  }
+
+  .search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: min(100%, 320px);
+  }
+
+  .search svg {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .search input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 16px 10px 44px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--ink);
+    font: inherit;
+  }
+
+  .search input:focus {
+    border-color: var(--red);
+    outline: none;
+    box-shadow: 0 0 0 4px rgb(217 33 46 / 0.12);
   }
 
   .insurers {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 40px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
     margin: 0;
-    padding: 16px 0 0;
+    padding: 0;
     list-style: none;
   }
 
-  .insurers li {
+  .insurer {
     display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    padding: 16px 0;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: box-shadow 0.25s, border-color 0.2s;
   }
 
-  .insurers img {
+  .insurer[hidden] {
+    display: none;
+  }
+
+  .insurer:hover {
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+  }
+
+  .insurer__top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .insurer__logo {
+    display: grid;
     flex: none;
-    width: 120px;
+    place-items: center;
+    width: 72px;
+    height: 56px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--red);
+    font-weight: 800;
+  }
+
+  .insurer__logo img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 
-  .insurers h3 {
-    margin-bottom: 8px;
-    color: var(--red);
+  .insurer h3 {
+    margin: 0;
+    color: var(--ink);
     font-size: 1.05rem;
-    text-transform: uppercase;
+    font-weight: 700;
   }
 
-  .insurers p {
-    margin: 0 0 4px;
-    font-size: 0.95rem;
+  .insurer__links {
+    display: grid;
+    gap: 6px;
   }
 
-  .insurers a,
-  .links a {
-    color: var(--text-muted);
-    font-weight: 600;
+  .insurer__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+    font-size: 0.92rem;
     text-decoration: none;
-    word-break: break-word;
   }
 
-  .insurers a:hover,
-  .links a:hover {
+  .insurer__links a:hover {
     color: var(--red);
-    text-decoration: underline;
   }
 
+  .insurer__links :global(svg) {
+    color: var(--red);
+  }
+
+  .insurers__empty {
+    padding: 24px;
+    border-radius: 16px;
+    background: var(--surface);
+    text-align: center;
+  }
+
+  .insurers__empty[hidden] {
+    display: none;
+  }
+
+  /* ---------- Links ---------- */
   .links {
     display: grid;
-    gap: 14px;
-    margin: 0;
-    padding: 16px 0 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 28px 0 0;
+    padding: 0;
     list-style: none;
   }
 
-  .links li {
+  .links a {
+    position: relative;
     display: grid;
+    gap: 4px;
+    height: 100%;
+    padding: 22px;
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background-color 0.2s, box-shadow 0.25s, transform 0.25s var(--ease);
   }
 
-  @media (max-width: 767px) {
-    .insurers {
+  .links a:hover {
+    background: var(--white);
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-2px);
+  }
+
+  .links strong {
+    font-size: 1.05rem;
+  }
+
+  .links span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
+
+  .links :global(svg) {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    color: var(--red);
+  }
+
+  @media (max-width: 1024px) {
+    .claim {
       grid-template-columns: 1fr;
     }
 
-    .insurers img {
-      width: 90px;
+    .insurers {
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    summary {
-      padding: 18px 16px;
+    .links {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .insurers,
+    .links {
+      grid-template-columns: 1fr;
     }
 
-    .panel {
-      padding-inline: 16px;
+    .search {
+      width: 100%;
     }
   }
 </style>

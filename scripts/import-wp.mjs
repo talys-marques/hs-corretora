@@ -148,7 +148,7 @@ async function importPosts() {
   for (const p of posts) {
     const media = p._embedded?.['wp:featuredmedia']?.[0];
     const content = localize(p.content.rendered.replace(/<!--[\s\S]*?-->/g, ''));
-    const body = toMarkdown(content);
+    let body = toMarkdown(content);
     // No featured images on the old blog: use the first inline image (original size) as cover
     let cover = media?.source_url ? localize(media.source_url) : '';
     const inline = content.match(/\/uploads\/([^"\s]+?)(-\d+x\d+)?\.(jpe?g|png|webp)/i);
@@ -156,6 +156,8 @@ async function importPosts() {
       const original = `${inline[1]}.${inline[3]}`;
       assets.add(original);
       cover = `/uploads/${original}`;
+      // The promoted image would otherwise show twice (cover + inline thumbnail)
+      body = body.replace(/^!\[[^\]]*\]\([^)]+\)\s*\n+/m, '');
     }
     const excerpt = cleanText(cheerio.load(p.excerpt.rendered).text()).replace(/\s*\[…\]$|\s*\[&hellip;\]$/, '…');
     const slug = decodeURIComponent(p.slug);

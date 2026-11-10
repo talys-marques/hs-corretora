@@ -10,8 +10,6 @@ imageAlt: ""
 legacyPath: "/2024/04/10/5-razoes-para-investir-em-um-seguro-de-vida-hoje-mesmo/"
 ---
 
-![](/uploads/2024/04/240_F_430072081_kC85pdAsmTsxn8STo3kTaMGGmA8dwHZX-300x200.jpg)
-
 Com um futuro imprevisível, garantir a segurança financeira familiar é essencial. Um dos melhores caminhos para isso é através de um seguro de vida. Mas por que você deveria considerar isso agora mesmo? Neste post, vamos explorar as 5 principais razões para investir em um seguro de vida hoje mesmo! 
 
 1.  **Proteção Financeira Familiar:** Em caso de falecimento do segurado, o seguro de vida indeniza o valor contratado, garantindo recursos para cobrir despesas essenciais, como hipoteca, contas domésticas e despesas com os filhos; 

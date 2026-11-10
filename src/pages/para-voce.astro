@@ -1,20 +1,35 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
+import PageIntro from '../components/PageIntro.astro';
 import ProductGrid from '../components/ProductGrid.astro';
+import AudienceSwitch from '../components/AudienceSwitch.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Icon from '../components/Icon.astro';
+import { site, whatsappLink } from '../config/site';
 ---
 
-<Base title="Para Você" description="Seguros para você, sua família e seu patrimônio: automóvel, residencial, vida, viagem, celular e muito mais. Solicite uma cotação personalizada.">
-  <PageHero upper={false} title="Compromisso com sua satisfação!" subtitle="Estamos prontos para lhe oferecer um atendimento personalizado e uma experiência positiva na escolha de um seguro." image="/uploads/2021/12/banner-paravoce.webp" />
-  <div class="container section-head intro">
-    <h2>Escolha o melhor para você</h2>
-    <p>Conheça nossa variedade de opções e solicite uma cotação personalizada.</p>
-  </div>
-  <ProductGrid audience="pf" title="Para você" />
-</Base>
+<Base title="Seguros para você" description="Seguros para você, sua família e seu patrimônio: automóvel, residencial, vida, viagem, celular e muito mais. Solicite uma cotação personalizada.">
+  <PageIntro
+    crumbs={[{ label: 'Para você' }]}
+    eyebrow="Compromisso com sua satisfação"
+    title="Seguros para você, sua família e seu patrimônio"
+    lead="Estamos prontos para oferecer um atendimento personalizado e uma experiência positiva na escolha do seu seguro. Conheça as opções e solicite uma cotação sob medida."
+    image="/uploads/2021/12/banner-paravoce.webp"
+  >
+    <a class="btn btn--primary btn--lg" href={site.quote.primaryUrl} target="_blank" rel="noopener">
+      Fazer cotação <Icon name="arrow-right" size={18} class="arrow" />
+    </a>
+    <a class="btn btn--dark-outline btn--lg" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> Falar no WhatsApp</a>
+  </PageIntro>
 
-<style>
-  .intro {
-    padding-top: clamp(40px, 6vw, 64px);
-  }
-</style>
+  <ProductGrid audience="pf" />
+
+  <AudienceSwitch
+    title="Procurando seguro para sua empresa?"
+    text="Empresarial, frota, vida em grupo, responsabilidade civil e mais."
+    href="/para-empresas/"
+    image="/uploads/2021/12/GettyImages-1149078028_paraempresas.webp"
+  />
+
+  <FinalCta />
+</Base>

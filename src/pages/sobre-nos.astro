@@ -1,49 +1,102 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import YouTubeLite from '../components/YouTubeLite.astro';
+import GroupStats from '../components/GroupStats.astro';
+import GroupBrands from '../components/GroupBrands.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../config/site';
+import iconPersonalizado from '../icons/personalizado.svg?raw';
+import iconAtendimento from '../icons/atendimento.svg?raw';
+import iconVariedade from '../icons/variedade.svg?raw';
 
-const youtubeId = '3Q3ZoqTy5v8';
+const values = [
+  { icon: iconPersonalizado, title: 'Cada cliente é único', text: 'Ouvimos sua história para oferecer seguros personalizados, para pessoa física ou empresa.' },
+  { icon: iconAtendimento, title: 'Proximidade e transparência', text: 'Atendimento próximo, com informação clara em cada etapa, da cotação ao sinistro.' },
+  { icon: iconVariedade, title: 'A solução certa para o momento', text: 'Comparamos as opções das seguradoras parceiras para encontrar a melhor proteção para você.' },
+];
 ---
 
-<Base title="Sobre Nós" description="A Herval Corretora oferece seguros personalizados para pessoas e empresas, com a solidez e a credibilidade do Grupo Herval, presente no mercado desde 1959.">
-  <PageHero title="Sobre nós" image="/uploads/2021/12/Foto-aerea_2014_HMC-valendo.webp" />
+<Base title="Sobre nós" description="A Herval Corretora oferece seguros personalizados para pessoas e empresas, com a solidez e a credibilidade do Grupo Herval, presente no mercado desde 1959.">
+  <PageIntro
+    crumbs={[{ label: 'Sobre nós' }]}
+    eyebrow="Sobre nós"
+    title="Proteção com proximidade e a solidez do Grupo Herval"
+    lead="Na Herval Corretora, sabemos que cada cliente tem uma história única. Por isso, trabalhamos para oferecer seguros personalizados, garantindo a sua segurança e tranquilidade."
+    image="/uploads/2021/12/Foto-aerea_2014_HMC-valendo.webp"
+    imageAlt="Vista aérea do parque fabril do Grupo Herval"
+  >
+    <a class="btn btn--primary btn--lg" href={site.quote.primaryUrl} target="_blank" rel="noopener">
+      Fazer cotação <Icon name="arrow-right" size={18} class="arrow" />
+    </a>
+    <a class="btn btn--dark-outline btn--lg" href="/contato/">Fale conosco</a>
+  </PageIntro>
 
-  <section class="section">
+  <section class="section" aria-labelledby="story-title">
     <div class="container split">
-      <div class="video">
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
-          title="Vídeo institucional da Herval Corretora"
-          loading="lazy"
-          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-      </div>
+      <YouTubeLite id="3Q3ZoqTy5v8" title="Vídeo institucional da Herval Corretora" />
       <div>
-        <h2>Sobre nós</h2>
-        <p>
-          Na <strong>Herval Corretora</strong>, sabemos que cada cliente tem uma história única. Por isso, trabalhamos para oferecer <strong>seguros personalizados</strong>,
-          garantindo a sua segurança e tranquilidade, seja como pessoa física ou empresa.
+        <p class="eyebrow">Nossa história</p>
+        <h2 id="story-title" class="heading-xl">Seguros personalizados para pessoas e empresas</h2>
+        <p class="lead">
+          Com a solidez e a credibilidade do <strong>Grupo Herval</strong>, presente no mercado desde 1959, levamos proteção para o que realmente mais importa para você.
         </p>
-        <p>
-          Com a solidez e a credibilidade do <strong>Grupo Herval</strong>, presente no mercado desde 1959, levamos proteção para o que realmente mais importa para você. Estamos
-          aqui para ajudar a encontrar a melhor solução para o seu momento, com atendimento próximo e transparente.
-        </p>
+        <p class="lead">Estamos aqui para ajudar a encontrar a melhor solução para o seu momento, com atendimento próximo e transparente.</p>
       </div>
     </div>
   </section>
 
-  <section class="section section--gray">
-    <div class="container split split--reverse">
-      <img src="/uploads/2025/04/FOTOS-AEREAS-MATRIZ-2-1024x768.jpg" alt="Vista aérea da matriz do Grupo Herval em Dois Irmãos (RS)" width="1024" height="768" loading="lazy" />
-      <div>
-        <h2>O Grupo Herval</h2>
-        <p>
-          O Grupo Herval é uma empresa gaúcha fundada em 1959, em Dois Irmãos. Integra segmentos diferenciados, com alcance global em mais de 20 países. Atualmente são 27
-          marcas que incluem segmentos de indústria, comércio/varejo, serviços, B2B e marcas próprias - entre elas a Herval Corretora de Seguros.
-        </p>
+  <section class="section values-section" aria-labelledby="values-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Como trabalhamos</p>
+        <h2 id="values-title" class="heading-xl">O que guia o nosso atendimento</h2>
+      </div>
+      <ul class="values">
+        {
+          values.map((v) => (
+            <li>
+              <span class="values__icon" set:html={v.icon} />
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section group" aria-labelledby="group-title">
+    <div class="container">
+      <div class="split split--reverse">
+        <img
+          class="group__photo"
+          src="/uploads/2025/04/FOTOS-AEREAS-MATRIZ-2-1024x768.jpg"
+          alt="Vista aérea da matriz do Grupo Herval em Dois Irmãos (RS)"
+          width="1024"
+          height="768"
+          loading="lazy"
+        />
+        <div>
+          <p class="eyebrow">O Grupo Herval</p>
+          <h2 id="group-title" class="heading-xl">Uma empresa gaúcha com alcance global</h2>
+          <p class="lead">
+            O Grupo Herval foi fundado em 1959, em Dois Irmãos (RS). Integra segmentos diferenciados, com alcance global em mais de 20 países. Atualmente são 27 marcas, nos
+            segmentos de indústria, comércio e varejo, serviços, B2B e marcas próprias, entre elas a Herval Corretora de Seguros.
+          </p>
+        </div>
+      </div>
+      <div class="group__stats">
+        <GroupStats />
+      </div>
+      <div class="group__brands">
+        <GroupBrands />
       </div>
     </div>
   </section>
+
+  <FinalCta />
 </Base>
 
 <style>
@@ -51,38 +104,91 @@ const youtubeId = '3Q3ZoqTy5v8';
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: clamp(24px, 5vw, 56px);
+    gap: clamp(32px, 5vw, 64px);
   }
 
-  .split--reverse > img {
+  .split .lead + .lead {
+    margin-top: -4px;
+  }
+
+  .values-section {
+    padding-top: 0;
+  }
+
+  .values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .values li {
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+
+  .values__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+    border-radius: 16px;
+    background: var(--red-soft);
+    color: var(--red);
+  }
+
+  .values__icon :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+
+  .values h3 {
+    margin-bottom: 8px;
+    color: var(--ink);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .values p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .group {
+    background: var(--surface);
+  }
+
+  .split--reverse > :first-child {
     order: 2;
-    border-radius: var(--radius);
   }
 
-  .video {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    background: #000;
-  }
-
-  .video iframe {
-    position: absolute;
-    inset: 0;
+  .group__photo {
     width: 100%;
-    height: 100%;
-    border: 0;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lift);
   }
 
-  h2 {
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
+  .group__stats {
+    margin-top: clamp(40px, 5vw, 56px);
   }
 
-  @media (max-width: 767px) {
-    .split {
+  .group__brands {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 1024px) {
+    .split,
+    .values {
       grid-template-columns: 1fr;
     }
 
-    .split--reverse > img {
+    .split--reverse > :first-child {
       order: 0;
     }
   }

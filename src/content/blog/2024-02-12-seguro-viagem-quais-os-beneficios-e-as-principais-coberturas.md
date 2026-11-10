@@ -16,8 +16,6 @@ Imagine-se explorando destinos exóticos ou visitando pontos turísticos deslumb
 
 Além de tranquilidade, hoje o seguro viagem é obrigatório para entrar em qualquer país da Europa (Tratado de Schengen). É um seguro com baixíssimo custo em relação ao benefício.
 
-![](/uploads/2024/02/360_F_544547308_az39OF7XXlQ1MRbaUHnNVtDE6fEzlYvM-300x200.jpg)
-
 Conheça as principais coberturas:
 
 - Despesas médicas e hospitalares;

@@ -1,0 +1,82 @@
+---
+// Red call-to-action card used at the bottom of the home, listings and product pages
+import Icon from './Icon.astro';
+import { site, whatsappLink } from '../config/site';
+
+interface Props {
+  title?: string;
+  text?: string;
+  whatsappMessage?: string;
+  quoteUrl?: string;
+}
+const {
+  title = 'Vamos encontrar o seguro ideal para você?',
+  text = `Fale com um especialista: ${site.phones[1].hours.toLowerCase()}.`,
+  whatsappMessage,
+  quoteUrl = site.quote.primaryUrl,
+} = Astro.props;
+---
+
+<section class="container final" aria-labelledby="final-title">
+  <div class="final__card">
+    <div>
+      <h2 id="final-title">{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="final__actions">
+      <a class="btn btn--white btn--lg" href={quoteUrl} target="_blank" rel="noopener">
+        Fazer cotação <Icon name="arrow-right" size={18} class="arrow" />
+      </a>
+      <a class="btn btn--glass btn--lg" href={whatsappLink(whatsappMessage)} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={18} /> WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final {
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+
+  .final__card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px 40px;
+    padding: clamp(28px, 5vw, 56px);
+    border-radius: 28px;
+    background:
+      radial-gradient(60% 120% at 100% 0%, rgb(255 255 255 / 0.16), transparent 60%),
+      linear-gradient(120deg, var(--red) 0%, var(--red-dark) 100%);
+    color: var(--white);
+  }
+
+  h2 {
+    max-width: 560px;
+    margin-bottom: 8px;
+    color: var(--white);
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .final__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (max-width: 767px) {
+    .final__actions,
+    .final__actions :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

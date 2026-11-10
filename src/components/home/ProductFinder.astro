@@ -1,0 +1,252 @@
+---
+// "Qual seguro você procura?" - tabbed shortcuts to the most searched products.
+// Without JS both panels stay visible; the script turns them into accessible tabs.
+import { getCollection } from 'astro:content';
+import Icon from '../Icon.astro';
+
+const featured = {
+  pf: ['automovel', 'residencial', 'vida', 'viagem', 'celular', 'previdencia-privada', 'acidentes-pessoais', 'bicicleta'],
+  pj: ['empresarial', 'frota', 'vida-em-grupos', 'responsabilidade-civil', 'condominio', 'transporte', 'saude', 'agricola'],
+};
+
+const all = await getCollection('produtos');
+const bySlug = new Map(all.map((p) => [p.id, p]));
+const counts = {
+  pf: all.filter((p) => p.data.listed && p.data.audience.includes('pf')).length,
+  pj: all.filter((p) => p.data.listed && p.data.audience.includes('pj')).length,
+};
+
+const tabs = [
+  { id: 'pf', label: 'Para você', more: 'Ver todos os seguros para você', href: '/para-voce/' },
+  { id: 'pj', label: 'Para empresas', more: 'Ver todos os seguros para empresas', href: '/para-empresas/' },
+] as const;
+---
+
+<div class="finder" data-tabs>
+  <slot />
+  <div class="tablist" role="tablist" aria-label="Tipo de cliente">
+    {
+      tabs.map((t, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${t.id}`}
+          aria-controls={`panel-${t.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          {t.label}
+          <span class="count">{counts[t.id]}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    tabs.map((t) => (
+      <div class="panel" role="tabpanel" id={`panel-${t.id}`} aria-labelledby={`tab-${t.id}`}>
+        <ul class="tiles">
+          {featured[t.id]
+            .map((slug) => bySlug.get(slug))
+            .filter((p) => p !== undefined)
+            .map((p) => (
+              <li>
+                <a class="tile" href={`/${p.id}/`}>
+                  <img src={p.data.card} alt="" width="72" height="72" loading="lazy" decoding="async" />
+                  <span class="tile__name">{p.data.title}</span>
+                  <Icon name="arrow-right" size={18} class="tile__arrow" />
+                </a>
+              </li>
+            ))}
+        </ul>
+        <a class="more" href={t.href}>
+          {t.more} <Icon name="arrow-right" size={16} />
+        </a>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = tabs.map((t) => root.querySelector<HTMLElement>(`#${t.getAttribute('aria-controls')}`)!);
+
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const active = i === index;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+        panels[i].hidden = !active;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          select((i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length, true);
+        }
+      });
+    });
+    select(0);
+  });
+</script>
+
+<style>
+  .finder {
+    padding: clamp(20px, 3vw, 32px);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .tablist {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    padding: 4px;
+    border-radius: 14px;
+    background: var(--surface);
+  }
+
+  [role='tab'] {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+
+  [role='tab'][aria-selected='true'] {
+    background: var(--white);
+    color: var(--ink);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .count {
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    font-size: 0.75rem;
+  }
+
+  [aria-selected='true'] .count {
+    background: var(--red-soft);
+    color: var(--red);
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 100%;
+    padding: 10px 14px 10px 10px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease);
+  }
+
+  .tile:hover {
+    border-color: transparent;
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .tile img {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .tile__name {
+    flex: 1;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .tile :global(.tile__arrow) {
+    flex: none;
+    color: var(--red);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s var(--ease);
+  }
+
+  .tile:hover :global(.tile__arrow),
+  .tile:focus-visible :global(.tile__arrow) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .more:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1024px) {
+    .tiles {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .tablist {
+      display: flex;
+    }
+
+    [role='tab'] {
+      flex: 1;
+      justify-content: center;
+      gap: 6px;
+      padding-inline: 8px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .tiles {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .tile img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .tile :global(.tile__arrow) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

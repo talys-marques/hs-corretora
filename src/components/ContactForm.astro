@@ -48,7 +48,7 @@ const { action, cid, formId } = site.emarsys;
     <span>Aceito receber comunicações da Herval Corretora de Seguros sobre seguros, ofertas e novidades.</span>
   </label>
 
-  <button class="btn btn--primary" type="submit">Enviar</button>
+  <button class="btn btn--primary btn--lg" type="submit">Enviar mensagem</button>
   <p class="status" role="status" aria-live="polite" hidden></p>
 </form>
 
@@ -98,7 +98,7 @@ const { action, cid, formId } = site.emarsys;
         show('Não foi possível enviar agora. Tente novamente ou fale com a gente pelo WhatsApp.', false);
       } finally {
         button.disabled = false;
-        button.textContent = 'Enviar';
+        button.textContent = 'Enviar mensagem';
       }
     });
   });
@@ -125,26 +125,31 @@ const { action, cid, formId } = site.emarsys;
   label {
     display: grid;
     gap: 6px;
+    color: var(--ink);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
 
   input:not([type='checkbox']),
   textarea {
     width: 100%;
+    min-height: 48px;
     padding: 12px 14px;
-    border: 1px solid #cfcfcf;
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
     font: inherit;
     font-weight: 400;
-    color: var(--text);
-    background: var(--white);
+    color: var(--ink);
+    background: var(--surface);
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
   }
 
-  input:focus,
+  input:not([type='checkbox']):focus,
   textarea:focus {
     border-color: var(--red);
-    outline: 2px solid rgb(217 33 46 / 0.2);
+    outline: none;
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgb(217 33 46 / 0.12);
   }
 
   textarea {
@@ -161,7 +166,10 @@ const { action, cid, formId } = site.emarsys;
   }
 
   .optin input {
-    margin-top: 3px;
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
     accent-color: var(--red);
   }
 

@@ -57,13 +57,11 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: 'Para Você', href: '/para-voce/' },
-  { label: 'Para Empresas', href: '/para-empresas/' },
-  { label: 'Sobre Nós', href: '/sobre-nos/' },
-  { label: 'Contato', href: '/contato/' },
-  { label: 'Ajuda', href: '/ajuda/' },
+  { label: 'Sobre nós', href: '/sobre-nos/' },
   { label: 'Blog', href: '/blog/' },
-  { label: 'Trabalhe Conosco', href: site.careersUrl, external: true },
+  { label: 'Ajuda', href: '/ajuda/' },
+  { label: 'Contato', href: '/contato/' },
+  { label: 'Trabalhe conosco', href: site.careersUrl, external: true },
 ];
 
 export const whatsappLink = (message: string = site.whatsapp.message) =>

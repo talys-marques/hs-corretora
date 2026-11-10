@@ -1,30 +1,72 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+
+const shortcuts = [
+  { label: 'Seguros para você', href: '/para-voce/' },
+  { label: 'Seguros para empresas', href: '/para-empresas/' },
+  { label: 'Ajuda e sinistros', href: '/ajuda/' },
+  { label: 'Blog', href: '/blog/' },
+];
 ---
 
 <Base title="Página não encontrada" noindex>
-  <section class="section container not-found">
-    <p class="code">404</p>
-    <h1>Página não encontrada</h1>
-    <p>O endereço que você acessou não existe ou mudou de lugar.</p>
-    <div class="actions">
-      <a class="btn btn--primary" href="/">Ir para o início</a>
-      <a class="btn btn--ghost" href="/contato/">Fale conosco</a>
+  <section class="not-found">
+    <div class="container">
+      <p class="code">404</p>
+      <h1>Esta página não foi encontrada</h1>
+      <p class="lead">O endereço que você acessou não existe ou mudou de lugar. Que tal um destes caminhos?</p>
+      <div class="actions">
+        <a class="btn btn--primary btn--lg" href="/">Ir para o início <Icon name="arrow-right" size={18} class="arrow" /></a>
+        <a class="btn btn--dark-outline btn--lg" href="/contato/">Fale conosco</a>
+      </div>
+      <ul class="shortcuts">
+        {
+          shortcuts.map((s) => (
+            <li>
+              <a href={s.href}>
+                {s.label} <Icon name="arrow-right" size={16} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 </Base>
 
 <style>
   .not-found {
+    padding-block: clamp(64px, 10vw, 120px);
+    background:
+      radial-gradient(55% 80% at 100% 0%, rgb(217 33 46 / 0.09), transparent 60%),
+      var(--surface);
     text-align: center;
   }
 
   .code {
     margin: 0;
-    color: var(--red);
-    font-size: clamp(4rem, 12vw, 7rem);
+    background: linear-gradient(120deg, var(--red), var(--red-dark));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: clamp(5rem, 16vw, 9rem);
     font-weight: 800;
+    letter-spacing: -0.05em;
     line-height: 1;
+  }
+
+  h1 {
+    margin: 12px 0;
+    color: var(--ink);
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .lead {
+    max-width: 520px;
+    margin: 0 auto;
   }
 
   .actions {
@@ -32,6 +74,35 @@ import Base from '../layouts/Base.astro';
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
-    margin-top: 24px;
+    margin-top: 32px;
+  }
+
+  .shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .shortcuts a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .shortcuts a:hover {
+    border-color: var(--red);
+    color: var(--red);
   }
 </style>

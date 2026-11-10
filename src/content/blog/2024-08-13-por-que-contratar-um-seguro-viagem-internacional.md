@@ -10,8 +10,6 @@ imageAlt: ""
 legacyPath: "/2024/08/13/por-que-contratar-um-seguro-viagem-internacional/"
 ---
 
-![](/uploads/2024/08/AdobeStock_236266519-300x200.jpeg)
-
 Viajar é uma experiência incrível, mas imprevistos podem acontecer a qualquer momento. Para garantir que sua viagem seja tranquila e segura, considerar a contratação de um seguro viagem internacional é fundamental. Aqui estão algumas razões pelas quais você deve considerar esse investimento: 
 
 1.  **Despesas médicas e hospitalares:** um seguro garante o atendimento em rede referenciada (ou reembolso) dos gastos médicos/odontológicos em caso de acidentes ou enfermidade; 

@@ -3,43 +3,103 @@
 // Until the business decides how to handle those files (LGPD), this page routes people to the
 // online quote platform, WhatsApp or phone.
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
+import PageIntro from '../components/PageIntro.astro';
 import Icon from '../components/Icon.astro';
 import { site, whatsappLink } from '../config/site';
 
 const cotacaoPhone = site.phones[1];
+
+const docs = [
+  { title: 'Apólice anterior', text: 'Se você já tem seguro, a apólice atual ajuda a manter o bônus e comparar coberturas.' },
+  { title: 'CNH', text: 'Para seguros de automóvel e outros veículos, a habilitação do principal condutor.' },
+  { title: 'Comprovante de residência', text: 'Endereço atualizado, usado no cálculo de vários tipos de seguro.' },
+];
+
+const steps = [
+  { title: 'Conte o que você precisa', text: 'Escolha um dos canais acima e diga qual seguro procura.' },
+  { title: 'Comparamos para você', text: 'Nossos especialistas cotam nas seguradoras parceiras e ajustam as coberturas ao seu perfil.' },
+  { title: 'Contrate com tranquilidade', text: 'Você escolhe a melhor proposta e conta com a gente também na hora do sinistro.' },
+];
 ---
 
 <Base title="Cotação" description="Solicite sua cotação de seguro com a Herval Corretora: online, pelo WhatsApp ou por telefone. Atendimento 100% humanizado.">
-  <PageHero title="Cotação" image="/uploads/2021/12/cotacao.webp" />
+  <PageIntro
+    crumbs={[{ label: 'Cotação' }]}
+    eyebrow="Cotação gratuita"
+    title="Solicite sua cotação de seguro"
+    lead="Escolha a forma mais prática para você. Nosso time de especialistas monta uma proposta personalizada, sem compromisso."
+    image="/uploads/2021/12/cotacao.webp"
+  />
 
-  <section class="section">
+  <section class="section" aria-labelledby="options-title">
     <div class="container">
-      <div class="section-head">
-        <h2>Solicite sua cotação</h2>
-        <p>Escolha a forma mais prática para você. Nosso time de especialistas vai personalizar a sua proposta.</p>
-      </div>
-
+      <h2 id="options-title" class="sr-only">Formas de solicitar cotação</h2>
       <ul class="options">
-        <li>
-          <span class="icon"><Icon name="external" size={26} /></span>
+        <li class="option option--featured">
+          <span class="badge">Mais rápido</span>
+          <span class="option__icon"><Icon name="external" size={24} /></span>
           <h3>Cotação online</h3>
-          <p>Preencha seus dados na nossa plataforma de cotação e receba propostas das seguradoras parceiras.</p>
-          <a class="btn btn--primary" href={site.quote.primaryUrl} target="_blank" rel="noopener">Cotar agora</a>
+          <p>Preencha seus dados na nossa plataforma e receba propostas das seguradoras parceiras.</p>
+          <a class="btn btn--primary btn--lg" href={site.quote.primaryUrl} target="_blank" rel="noopener">
+            Cotar agora <Icon name="arrow-right" size={18} class="arrow" />
+          </a>
         </li>
-        <li>
-          <span class="icon"><Icon name="whatsapp" size={26} /></span>
+        <li class="option">
+          <span class="option__icon option__icon--wa"><Icon name="whatsapp" size={24} /></span>
           <h3>WhatsApp</h3>
-          <p>Converse com um especialista e envie documentos (apólice anterior, CNH, comprovante de residência) por lá.</p>
-          <a class="btn btn--primary" href={whatsappLink()} target="_blank" rel="noopener">Chamar no WhatsApp</a>
+          <p>Converse com um especialista e envie seus documentos por lá mesmo.</p>
+          <a class="btn btn--dark-outline btn--lg" href={whatsappLink()} target="_blank" rel="noopener">Chamar no WhatsApp</a>
         </li>
-        <li>
-          <span class="icon"><Icon name="phone" size={26} /></span>
+        <li class="option">
+          <span class="option__icon option__icon--navy"><Icon name="phone" size={24} /></span>
           <h3>Telefone</h3>
           <p>{cotacaoPhone.hours}</p>
-          <a class="btn btn--ghost" href={`tel:${cotacaoPhone.tel}`}>{cotacaoPhone.number}</a>
+          <a class="btn btn--dark-outline btn--lg" href={`tel:${cotacaoPhone.tel}`}>{cotacaoPhone.number}</a>
         </li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section docs-section" aria-labelledby="docs-title">
+    <div class="container docs">
+      <div>
+        <p class="eyebrow">Para agilizar</p>
+        <h2 id="docs-title" class="heading-xl">O que ter em mãos</h2>
+        <p class="lead">Não é obrigatório, mas estes documentos ajudam a deixar a proposta mais precisa.</p>
+      </div>
+      <ul class="docs__list">
+        {
+          docs.map((d) => (
+            <li>
+              <span class="docs__check">
+                <Icon name="check" size={18} />
+              </span>
+              <span>
+                <strong>{d.title}</strong>
+                <span>{d.text}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section how" aria-labelledby="how-title">
+    <div class="container">
+      <p class="eyebrow">Como funciona</p>
+      <h2 id="how-title" class="heading-xl">Do pedido à apólice, com você em cada etapa</h2>
+      <ol class="steps">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="steps__n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 </Base>
@@ -48,45 +108,193 @@ const cotacaoPhone = site.phones[1];
   .options {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 20px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .options li {
+  .option {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
-    padding: 28px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    gap: 10px;
+    padding: 32px 28px 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--white);
   }
 
-  .icon {
+  .option--featured {
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+  }
+
+  .badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--red-soft);
+    color: var(--red);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .option__icon {
     display: grid;
     place-items: center;
-    width: 52px;
-    height: 52px;
-    margin-bottom: 8px;
-    border-radius: 50%;
-    background: rgb(217 33 46 / 0.1);
-    color: var(--red);
+    width: 56px;
+    height: 56px;
+    margin-bottom: 6px;
+    border-radius: 16px;
+    background: var(--red);
+    color: var(--white);
   }
 
-  h3 {
+  .option__icon--wa {
+    background: rgb(37 211 102 / 0.14);
+    color: #128c4b;
+  }
+
+  .option__icon--navy {
+    background: var(--surface-2);
+    color: var(--navy);
+  }
+
+  .option h3 {
     margin: 0;
-    font-size: 1.25rem;
+    color: var(--ink);
+    font-size: 1.3rem;
+    font-weight: 750;
   }
 
-  p {
+  .option p {
     flex: 1;
+    margin: 0 0 8px;
     color: var(--text-muted);
   }
 
+  .option .btn {
+    width: 100%;
+  }
+
+  .docs-section {
+    background: var(--surface);
+  }
+
+  .docs {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 32px 64px;
+  }
+
+  .docs .lead {
+    margin: 0;
+  }
+
+  .docs__list {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .docs__list li {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 18px;
+    background: var(--white);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .docs__list li > span:last-child {
+    display: grid;
+    gap: 2px;
+  }
+
+  .docs__list strong {
+    color: var(--ink);
+  }
+
+  .docs__list li > span:last-child > span {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  .docs__check {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+  }
+
+  .how {
+    background:
+      radial-gradient(50% 80% at 100% 0%, rgb(217 33 46 / 0.25), transparent 60%),
+      var(--navy);
+    color: var(--white);
+  }
+
+  .how .eyebrow {
+    color: #ff8a92;
+  }
+
+  .how .heading-xl {
+    margin-bottom: 36px;
+    color: var(--white);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .steps li {
+    padding: 28px;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: 20px;
+    background: rgb(255 255 255 / 0.04);
+  }
+
+  .steps__n {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: #ff8a92;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .steps h3 {
+    margin-bottom: 8px;
+    color: var(--white);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .steps p {
+    margin: 0;
+    color: rgb(255 255 255 / 0.72);
+  }
+
   @media (max-width: 1024px) {
-    .options {
+    .options,
+    .steps,
+    .docs {
       grid-template-columns: 1fr;
     }
   }

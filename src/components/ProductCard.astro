@@ -1,0 +1,99 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  product: CollectionEntry<'produtos'>;
+}
+const { product } = Astro.props;
+const d = product.data;
+---
+
+<a class="product-card" href={`/${product.id}/`} data-search={d.title.toLocaleLowerCase('pt-BR')}>
+  <span class="media">
+    <img src={d.card} alt="" width="370" height="260" loading="lazy" decoding="async" />
+  </span>
+  <span class="body">
+    <span class="title">{d.title}</span>
+    {d.description && <span class="desc">{d.description}</span>}
+    <span class="more">Saiba mais <Icon name="arrow-right" size={16} class="arrow" /></span>
+  </span>
+</a>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.25s, transform 0.25s var(--ease);
+  }
+
+  .product-card:hover {
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-4px);
+  }
+
+  .media {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .product-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 22px 22px;
+  }
+
+  .title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .desc {
+    display: -webkit-box;
+    flex: 1;
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    color: var(--red);
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .product-card:hover :global(.arrow) {
+    transform: translateX(3px);
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+// Cross-link card from one listing to the other audience
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  text: string;
+  href: string;
+  image: string;
+}
+const { title, text, href, image } = Astro.props;
+---
+
+<div class="container">
+  <a class="switch" href={href}>
+    <img src={image} alt="" width="830" height="565" loading="lazy" />
+    <span class="switch__body">
+      <span class="switch__title">{title}</span>
+      <span class="switch__text">{text}</span>
+    </span>
+    <span class="switch__go" aria-hidden="true"><Icon name="arrow-right" size={22} /></span>
+  </a>
+</div>
+
+<style>
+  .switch {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: clamp(40px, 5vw, 64px);
+    padding: 16px 28px 16px 16px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.25s;
+  }
+
+  .switch:hover {
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+  }
+
+  img {
+    flex: none;
+    width: 160px;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    object-fit: cover;
+  }
+
+  .switch__body {
+    display: grid;
+    flex: 1;
+    gap: 4px;
+  }
+
+  .switch__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .switch__text {
+    color: var(--text-muted);
+  }
+
+  .switch__go {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--red-soft);
+    color: var(--red);
+    transition: background-color 0.2s, color 0.2s, transform 0.2s var(--ease);
+  }
+
+  .switch:hover .switch__go {
+    background: var(--red);
+    color: var(--white);
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 767px) {
+    .switch {
+      gap: 16px;
+      padding: 12px 16px 12px 12px;
+    }
+
+    img {
+      width: 88px;
+    }
+
+    .switch__go {
+      display: none;
+    }
+  }
+</style>
